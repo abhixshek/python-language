@@ -1,5 +1,6 @@
 a = 'boy' # the most common
 a, b = 'spam', 'ham' # this is called tuple-unpacking assignment. this is same as (a, b) = 'spam', 'ham'
+# or (a, b) = ('spam', 'ham')
 print(a)
 print(b)
 
