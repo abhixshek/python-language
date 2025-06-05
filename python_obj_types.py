@@ -58,7 +58,7 @@ print(s.replace('school', 'office'))
 st = 'this is a string'
 num = 78
 height = 85.561278
-print('%s okay %d fine%f'%(st,num,height)) # string formatting expression
+print('%s okay %d fine%f'%(st,num,height)) # string formatting expression. spaces before and after % outside the quotes does not matter to the syntax.
 print('{} okay {} fine{}{}'.format(st,num,height, 'wow cool')) # .format() - string formatting method call
 print('{0} okay {1} fine{2}{3}'.format(st,num,height, 'wow cool')) #you can give the number to indicate which variable from the arguments to .format() to insert at that position
 print('{3} okay {1} fine{0}{2}'.format(st,num,height, 'wow cool')) # changed the order
@@ -67,11 +67,12 @@ print('{3} okay {1} fine{0}{2}'.format(st,num,height, 'wow cool')) # changed the
 ###################################################
 
 #lists in python
+print("####### Lists in Python #####")
 w = [1,7,9.45, 'abhi']
 # since lists are sequences, they support all sequence operations we covered above for strings. 
 print(len(w))
 print(w[-1])
-print(w[:-1])
+print(w[:-1]) # slicing a list returns a new list
 print(w) # w remains unchanged so far. 
 print(w + [5,'go', 'ai'])
 print(w) # w remains unchanged so far. 
@@ -79,18 +80,18 @@ print(w) # w remains unchanged so far.
 # list methods
 w.append('cool')
 print(w) # w updated in place
-item = w.pop(2) # 2 is the index 
+item = w.pop(2) # 2 is the index. this removes element at index 2 and returns that element.
 print(item)
 print(w) # w updated with item at index 2 previously removed now. 
 del w[1]
 print(w) # del works the same way as .pop() but doesnt return anything. again, list w updated in place.
-
+# del(w[1]) as a built-in function also works.
 #### print(w.sort()) throws Typeerror because w contains int and str objects and they cannot be compared to tell which is smaller or larger.
 
 q = [7,3,9,2,8,1,66]
 print(q.reverse()) # .reverse() operation does not return anything and just does what it does. therefore, None is printed in output 
 print(q) # q updated in place.
-print(q.remove(66)) # removes the value 66. since it doesnt return anything None is printed. 
+print(q.remove(66)) # removes the value 66. since it doesnt return anything None is printed. Removing an item that does not exist in the list will give ValueError.
 e = [67,34,89,2,67,44,23]
 e.insert(1,97) # inserts 97 at index 1 and shift all values to the right. 
 e.insert(40,176) # index 40 doesnt exist, but function doesnt throw error and simply inserts the value at the last
@@ -108,15 +109,29 @@ print(matrix[1][1])
 # how do you extract column 2(middle)?
 column2 = [row[1] for row in matrix]
 print(column2)
+# notice that doing matrix[:][1] returns [4,5,6] instead of what we wanted. because notice matrix[:] simply creates a copy of the whole list and then [1] takes out the element at index 1 which is [4,5,6]
+# doing matrix[:][1] works perfectly on a numpy array.
 # how do you extract even numbers from column 2?
 even_nos = [row[1] for row in matrix if row[1] % 2 == 0]
 print(even_nos)
 
+s = 'spam'
+doubles = [c * 2 for c in s]
+print(doubles) # prints ['ss', 'pp', 'aa', 'mm']
+
+
 # generator expression 
-h = (row[1] for row in matrix)
+h = (row[1] for row in matrix) # notice the parenthesis instead of []
 print(next(h))
 print(next(h))
 print(next(h)) # after this is you call next() again it will give StopIteration error because the generator runs out of elements. 
+
+# map() built-in generator function:
+a = [5, 12, 21]
+g = map(lambda x: x ** 2, a) # map(func, iterable)
+print(next(g)) # 25
+print(next(g)) # 144
+print(next(g)) # 441, after this we will get a StopIteration error.
 
 
 #################################
@@ -133,9 +148,11 @@ print(D.get('city', 0)) #.get() method is a nice way to fetch a key if it exists
 ###############################
 ###############################
 # tuples
-T = (1, 5.67, [8,7], 'rty')
+T = (1, 5.67, [8,7], 'rty') # tuples are sequences and immutable.
 # T[1] = 45 will give TypeError as item assignment is not supported by tuples because they are immutable.
-print(T + (55,44))
+print(T + (55,44)) # concatenation is a sequence operation
+print(T.index(5.67)) # gives the index of the value passed if the value is present else is it gives ValueError
+print(T.count('rty')) # count the occurences of a value in the tuple
 
 ##############################
 ##############################
@@ -154,9 +171,32 @@ print(content)
 # sets
 X = {'s', 'p', 'a', 'm'}
 Y = {'h', 'a', 'm'}
-print(X & Y)
-print(X | Y)
+print(X & Y) # intersection
+print(X | Y) # union
 print(X - Y)
+
+# S = {4, 5, [7, 8]} # this throws TypeError as mutable types are not allowed inside sets.
+
+######## Decimals and Fractions
+import decimal
+d = decimal.Decimal('3.414') # fixed precision decimal
+print(d + 1) # Decimal('4.414')
+decimal.getcontext().prec = 2 # setting precision to 2, so no. of digits in the whole no. will be limited to 2
+d = decimal.Decimal('1.00') / decimal.Decimal('3.00')
+print(d) # 0.33
+
+from fractions import Fraction
+f = Fraction(2, 3)
+print(f + 1) # prints 5/3 as 2/3 + 3/3 = 5/3
+print(f + Fraction(2, 5)) # prints 16/15
+
+#### booleans - True, False which are nothing but 1 and 0 with special display logic.
+print( 1 > 2, 2 > 1)
+
+#### None
+x = None
+print(type(x)) # <class 'NoneType'>
+l = [None] * 100 # a list of 100 Nones
 
 ##################################
 #################################

@@ -1,10 +1,21 @@
+# basic mathematical operators
+a = 5
+b = 2
+print(a + b, a - b, a * b, a / b)
+print(a % b) # module operator gives the remainder of the division
+print(a ** b) # exponentiation. 5 to the power of 2 = 25
+
+print(3.0 ** b) # mixed types are converted up. therefore the result is 9.0
+
+
 # some different forms of floating point numbers(floats)
 a = 1.2
 b = 0.5
 c = .45
 d = -.32
-print(a, b, c, d)
-print(type(a), type(b), type(c), type(d))
+e = 2.
+print(a, b, c, d, e)
+print(type(a), type(b), type(c), type(d), type(e))
 e = 2e3
 f = 3.0E2
 g = 2.45e-4
@@ -13,6 +24,9 @@ i = 4E120
 j = 4.0e+210
 print(e, f, g, h, i, j)
 print(type(e), type(f), type(g), type(h), type(i), type(j))
+
+#NOTE that after e or E in the exponent form, you can only have an integer. giving a float there will result in a Syntax error. ex: 2E2.5 will give error.
+
 
 # mixed types are converted up
 a = 5
@@ -47,6 +61,11 @@ print(b / 2 + 3) # prints 5.0 not 5 even though b and 2 both were integers in th
 # if you want to have int result from division in python 3.0 then you can use // (floor division)
 print(b //2 + 3)
 
+a = 2
+b = 4.0
+print(a + b) # in mixed type expressions, operands are converted up to the most complex type, in this case float. so the result is also float. = 6.0
+
+
 
 # format / display floats in the exponent form
 a = 3.5673
@@ -56,7 +75,7 @@ c = 0.00826499
 print('%e' %a)
 print('%e' %b)
 print('%e' %c)
-# all are shown with a float with 1 digit to the left of the decimal and then left of the number followed by the exponent power (base 10)
+# all are shown with a float with 1 digit to the left of the decimal and then rest of the number followed by the exponent power (base 10)
 
 # Comparison operators and numbers
 print(3 < 5) # True
@@ -69,9 +88,11 @@ print(3 != 3.0) # False, 3 on the left is first converted up to 3.0 then compare
 print(1 < 2 < 3) # same as 1< 2 and 2 < 3, True
 print(1 <2.0 < 3) # True, first converts up 1 to float then does the comparison 1.0 < 2.0 and 2.0 < 3.0
 print(1 < 2.0 < 3 > 4) # False, same as 1.0< 2.0 and 2.0 < 3.0 and 3 > 4
+print(1 < 2 > 1) # True, same as 1 < 2 AND 2 > 1. NOTE that this is not 1<2 implies True > 1 => False. no this is wrong. remember that the comparisons are chained using AND
+# when in doubt always think in terms of AND logical operations
 
 ## division: true and floor
-print(4 / 5 ) # 0.8 as / always returns true division in python 3.0
+print(4 / 5 ) # 0.8 as / always returns true division in python 3.0. and the result is always a float regardless of the operands
 print(4.0 / 5) # 0.8
 print(4 / 2) # returns 2.0
 print(4 // 2) # returns 2 (int)
@@ -102,8 +123,14 @@ a = 2 + -3j # becomes 2 - 3j
 print(a)
 print(type(a))
 print(a.real, a.imag)
+print(2 + -3j * 3) # since * has higher precedence over + and - we get 2 + - 9j = (2-9j)
+print((2 + -3j) * 3) # gives (6-9j)
+
+print(1j * 1j) # gives (-1+0j) because recall from school in complex numbers j*j=-1
 
 # hexadecimal, octal and binary representations of integers
+
+#NOTE that whether you type literals in octal, hexa decimal or binary or decimal base 10 they are all represent integers at the end of the day.
 a = 0b100 # or 0B100 will also work. this is integer 4 in binary 
 # note we did not type the literal in single or double quotes. 
 print(a) # prints 4
@@ -126,6 +153,18 @@ print(0x01, 0x1, 0x09, 0x0A, 0x0B, 0x0F, 0x10, 0xFF, 0xff, 0Xff) # these are hex
 
 print(oct(64), hex(64), bin(64)) # use these functions to convert integer in base 10 to the base you want accordingly. the returned value is a string in that base.
 
-# to go the other way around, use int(string, base) to convert that base value to integer in bae 10, i.e. decimal
+# to go the other way around, use int(string, base) to convert that base value to integer in base 10, i.e. decimal
 print(int('64'), int('100', 8), int('0x40', 16), int('0b1000000', 2)) # prints integer 64, all of them return integer 64
+print(int(4), int(0b100), int('0b100', 2), int('100', 2)) # all return the integer 4
+
+# recall the eval() treats the input string as code expression
+print(eval('4')) # prints 4
+print(eval('0b100')) # prints 4
+print(eval('0xff')) # prints 255
+print(eval('0o17')) # prints 15
+
+# we can also convert base 10 integer into its octal, hex or binary representation using string formatting
+a = 12
+print('{0:o}, {1:x}, {2:b}'.format(a, a, a))
+print('%o, %x, %X' % (255, 255, 255))
 
