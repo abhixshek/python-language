@@ -15,7 +15,7 @@ a, b, c, d=  'spam'
 
 [a, b, c, d] = 'spam'
 # works same as above.
-# therefore bottom line is you can mix different different sequence object types of either side of the = sign. 
+# therefore bottom line is you can mix different different sequence object types on either side of the = sign. 
 print(a, b, c, d)
 
 w = 'cat'
@@ -65,6 +65,15 @@ b, a = a, b
 print(a, b) # a is now 2 and b is now 1 without having to create a temporary third variable to be able to swap. 
 # actually python stores the tuple on the right as a temporary object which allows us to achieve this swap. 
 
+a = [5, 6, 7]
+b = [13, 18, 23]
+c = b
+b, a = a, b
+print(a, b, c)
+c.append(55)
+print(a, b, c) # this shows that in such tuple assignments, we are not creating copies of the original object but referencing the same object.
+# this is why both and a and c are same even though we changed c only.
+
 
 # advanced unpacking
 s = 'SPAM' # a sequence of 4 characters
@@ -99,17 +108,27 @@ print(b) # 'P'
 print(c) # 'AM'
 
 # the above is same as:
-(a, b), c = ('SP', 'AM')
+((a, b), c) = ('SP', 'AM')
 print(a)
 print(b)
 print(c)
 
+# tuple unpacking assignment also allows for easier assignment of series of integers/codes
 red, blue, green = range(3)
 print(red)
 print(blue)
 print(green)
 
-# starred names in detail
+# splitting a sequence into its front and the rest.
+L = [4, 8, 0, 2]
+while L:
+    print(L)
+    front, L = L[0], L[1:]
+
+# NOTE that this code is using the list as a sort of stack data structure, which can also often be achieved with the append and pop methods of list objects
+# alternatively we could do, front = L.pop(0) # assigns to front the first element and L updates with the rest of the list in-place
+
+# starred names in detail / extended sequence assignment:
 w = [1, 2, 3, 4]
 a, *b = w # first, rest
 print(a) # 1
@@ -117,16 +136,21 @@ print(b) # list # [2, 3, 4]
 
 *a, b = w # rest, last
 print(a) # list # [1, 2, 3]
-print(b) # this time b takes the last element and a takes the rest before it
+print(b) # this time b takes the last element and a takes the rest before it. therefore b is 4
 
 # in the traditional slicing way this would be achieved as below
-a = w[:-1], w[-1]
+a, b = w[:-1], w[-1]
 
 # when starred name is used in the middle, it collects everything between the other names listed.
 a, *b, c = w
 print(a) # 1
 print(b) # [2, 3]
 print(c) # 4
+
+a, b, c, *d, e = w
+print(a, b, c, e) # python first assigns to the non-starred target names and then assigns the remaining list of items to d (starred name)
+# therefore a=1, b=2, c=3, e=4. and because nothing is left now. d = [] (empty list)
+# if we had one more non-starred name on the left, we would get an error: not enough values to unpack
 
 # a practical usage example of * names
 L = [1, 2, 3, 4]
