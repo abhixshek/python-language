@@ -158,6 +158,22 @@ while L:
     front, *L = L # no manual slicing of L required
     print(front, L)
 
+r = 'language'
+a, *b = r # [a, *b] = r also works the same
+# (a, *b) = r is also the same. because recall parenthesis are not required for tuples.
+print(a) # 'l' 
+print(b) # ['a', 'n', 'g', 'u', 'a', 'g', 'e']
+print(r) # 'language'
+
+r = (6,432,6,87,2,8,21)
+a, *b, c = r
+print(a) # 6
+print(b) # [432, 6, 87, 2, 8] # note that r was a tuple but b is a list of the remaining items not tuple. # so assume *b always runs a list() function on the remaining sequence
+# regardless of whether the sequence is list or tuple or string
+print(c) # 21
+print(r) # (6,432,6,87,2,8,21)
+
+
 # boundary cases
 #1 starred name always returns a list even if only 1 item remains.
 seq = [1, 2, 3, 4]
@@ -184,11 +200,19 @@ print(e) # 4
 
 *a, = seq #this works because `*a, ` is nothing but a tuple, recall parenthesis are not required. had you coded `*a = seq` you will get error as * names can only appear in a list or tuple, i..e not alone
 print(a)
-# NOTE a is actually a copy of seq. i.e. it is not pointing to the same object referenced by seq. because recall starred names collects everything in a list by running list(seq)
-# so this is same as a = list(seq) which would also create a copy of object referenced by seq.
+# NOTE a is actually a COPY of seq. i.e. it is not pointing to the same object referenced by seq. because recall starred names collects everything in a list by running list(seq)
+# so this is same as a = list(seq) which would always create a copy of object referenced by seq.
 a[1] = 199
 print(a) # changed 
 print(seq) # unchanged
+
+
+for a, *b, c in [(3456,2,7896,234), (786,121,986,325), (1234,786,8,3,2324,3)]:
+    print(a) # a gets the item at index 0 in each tuple
+    print(b) # b is a list of remaining items of the tuple in each iteration excluding the item at index 0 and last index because they are assigned to a and c
+    print(c) # c gets the last item of each tuple
+
+
 
 # multiple-target assignment
 a = b = c = 'spam'
@@ -198,15 +222,18 @@ c = 'spam'
 b = c
 a = b
 
+# NOTE we have multiple targets (names) in the statement, not multiple objects. i.e. a = 'spam' = 'ham' will give error because you CANNOT assign an object to another object literal. it has no meaning.
+
 a = b = []
 b.append(42)
 print(a, b) # a got changed too.
 
-# to avoid such issues initialize mutable objects in separate lines so it creates a new object for each name. 
+# NOTE to avoid such issues initialize mutable objects in separate lines so it creates a new object for each name. 
 a = []
 b = []
 b.append(42)
-print(a, b) # a is unchanged
+print(a, b) # a is unchanged and still []. while b is [42]
+
 
 # augmented assignments
 a = 1
@@ -230,7 +257,8 @@ L.extend([7, 8]) # NOTE that it is .extend method for appending multiple items t
 print(L)
 # note .extend() is faster than the concatenation approach. 
 # when using augmented assignment python automatically calls the faster .extend() method on it. 
-L += [10, 11] # even though it look like it would be using the concatenation approach, it is actually using .extend() behind the scenes.
+L += [10, 11] # even though it look like it would be using the concatenation approach, it is actually using .extend() behind the scenes which is why augmented assignments are faster
+# than the traditional L = L + [10, 11]
 print(L)
 
 # be careful when dealing with shared reference on mutable objects though
@@ -242,12 +270,12 @@ print(L, M) # L is changed, not M
 L = [1, 2]
 M = L
 L += [3, 4] # in-place extend
-print(L, M) # M changed too 
+print(L, M) # M changed too!
 
 # another way to make in-place changes
 L = [1, 2]
 M = L
-L[len(L): ] = [3, 4, 5] # changed in place
+L[len(L): ] = [3, 4, 5] # changed in place. so this works like the extend method but extend is simpler to type than this.
 print(L, M) # both changed
 
 # common python beginner mistake:
