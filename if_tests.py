@@ -93,8 +93,13 @@ x = 1; y = 2; print(x + y); z = 55 # again last statement need not end with ; as
 if y: print(y ** 2)
 
 ## Truth tests - and , or 
+print(2 < 3, 3 < 2) # comparison operators and equality operator return True or False which is nothing but 1 and 0's custom version
+
 print(2 or 3, 3 or 2) # or returns the first object which is true in in the expression
 # prints 2 for the 1st case and 3 for the 2nd case
+
+print([] or None or '' or 0 or (9,) or 0.0) # returns (9,) which is a tuple because every operand before it evaluated to False
+
 
 print([] or 3) # prints 3 as thats the first true value encountered
 
@@ -108,6 +113,8 @@ print(2 and 3, 3 and 2) # stops at the first false value encountered
 print([] and 3) # returns []
 print([] and {}) # returns []
 print(3 and []) # returns []
+print(3 and 0.00001 and [1,2] and (3,) and '' and []) # retuns '' (empty string) because thats the 1st false value encountered
+
 
 X = 2
 Y = 3
@@ -123,9 +130,9 @@ A = Y if X else Z
 print(A)
 
 A = 't' if 'spam' else 'f'
-print(A)
+print(A) # t
 A = 't' if '' else 'f'
-print(A)
+print(A) # f
 
 # Same can be achieved by a careful combination of `and` and `or` operators because they either return the object on the left side or the object on the right side.
 A = ((X and Y) or Z)
@@ -147,7 +154,7 @@ r = ['f', 't'][bool('')] # r = 'f'
 print(r)
 r = ['f', 't'][bool('spam')] # r = 't'
 print(r)
-# However, this isn’t exactly the same, because Python will not short-circuit—it will always run both Z and Y, regardless of the value of X.
+# However, this isn’t exactly the same, because Python will NOT short-circuit—it will always run both Z and Y, regardless of the value of X.
 
 # using boolean operators to assign non-empty object
 A = X or Y or Z or None # A = X since X is non-empty = 2
