@@ -6,7 +6,14 @@ if 1: # 1 is a boolean true
 if 0:
     print('true')
 else:
-    print('false') # false gets printed because 0 is a boolean false
+    print('false. 0 is nothing but False') # false gets printed because 0 is a boolean false
+
+if -1:
+    print('-1 is also considered true') # only 0 becomes false. all other integers are treated true
+
+if 0.00001:
+    print('true still') # again only 0.0 evaluates to False, all other floats are true
+
 
 
 subject = 'AI' 
@@ -70,8 +77,18 @@ s = ('this is '
     )
 print(s)
 
+s = """
+this is 
+a beautiful  # comment included in the string
+city of India
+"""
+
+print(s) # multiline strings coded in triple quotes add a new line character on every new line and also include the # comment inside it.
+
+
+
 # combining multiple simple statements in a single line using ;
-x = 1; y = 2; print(x + y)
+x = 1; y = 2; print(x + y); z = 55 # again last statement need not end with ; as semicolon is not a required part of python syntax. even if you ended with ; it would not be an error.
 
 if y: print(y ** 2)
 

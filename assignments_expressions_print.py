@@ -284,7 +284,13 @@ L = L.append(3) # append() is a method of the list object. it changes the list i
 print(L) # prints None, you have lost your list L in doing so!!
 # same thing applies to other methods that change mutable objects in place.
 
-# printing in python
+# print() also returns None
+a = print("This is a print statement")
+print(a)
+
+
+
+########### printing in python
 print() # displays a blank line
 
 print('hello world')
