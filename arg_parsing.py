@@ -21,8 +21,7 @@ parser.add_argument("num_1", help="first number", type=int) # type=int runs int(
 parser.add_argument("num_2", help="second number", type=int)
 
 # optional arguments
-parser.add_argument("--verbose", help="increase verbosity", choices=[0,1,2]) # choice restricts the values the --verbose option can take
-# because you have given integers in the choice values, parser will convert your string argument that you pass to int using int()
+parser.add_argument("--verbose", help="increase verbosity", type=int, choices=[0,1,2]) # choice restricts the values the --verbose option can take
 
 parser.add_argument("-f", "--float", help="treat operands as float", action="store_true") # action="store_true" essentially converts this into a flag. if this is passed it will be true otherwise false.
 # NOTE that if you specify only the shortversion, for example "-f" in the above agg_arguments() then the attribute will be args.f. but if you provide both then the attribute will take the name of -- flag.
@@ -52,4 +51,12 @@ if args.float:
 
 
 result = calculator(args.op, args.num_1, args.num_2)
-print(result)
+
+if args.verbose == 2:
+    print("The {} of {} and {} is {}.".format(args.op, args.num_1, args.num_2, result))
+
+elif args.verbose == 1:
+    print("{} of {} and {} = {}".format(args.op, args.num_1, args.num_2, result))
+else:
+    print(result)
+
