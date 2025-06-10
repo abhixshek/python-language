@@ -168,3 +168,106 @@ a = 12
 print('{0:o}, {1:x}, {2:b}'.format(a, a, a))
 print('%o, %x, %X' % (255, 255, 255))
 
+######### Bitwise operations
+x = 1 # 0001
+y = x << 2 # shift x left 2 bits: 0100
+print(x, bin(x))
+print(y, bin(y))
+
+y = x | 2 # bitwise OR, i.e. 0001 | 0010 . now perform OR operation on each bit you get - 0011 which is 3
+print(y, bin(y))
+
+y = x & 1 # bitwise AND, i.e. 00001 & 0001. which gives 0001
+print(y, bin(y))
+
+print(bin(x | 0b10))
+print(bin(x & 0b1))
+
+x = 0xFF # 255 in hexadecimal
+print(bin(x)) # 0b11111111
+y = x ^ 0b10101010 # ^ operator is the bitwise XOR
+print(y, bin(y))
+
+print(int(bin(y), 2)) # binary string to integer in base 10. prints 85
+
+x = 85
+print(x.bit_length()) # 7
+print(bin(x)) # 0b1010101, notice the length is 7
+# same can be achieved using bin and len functions
+print(len(bin(x)) - 2)
+print(bin(-85)) # -0b1010101
+
+
+#### numeric modules and functions
+print(pow(2.5, 3.5))
+print(pow(2.5, -3.5))
+print(pow(-2.5, 3.0))
+print(pow(-2.5, 3.5)) # complex number because the base is negative and we have a non-integer or decimal value in the power. essentially taking root of a negative number leads to a complex number.
+print(pow(0, 1)) # 0
+print(pow(0, 0)) # 1
+
+# pow(0, -5) # is 1/0^5 = 1/0 = not defined and therefore gives ZeroDivisionError
+
+print(-2.5 ** 2) # -6.25
+print((-2.5) ** 2) # 6.25. the reason is operator precedence. note that ** has higher precedence therefore in the previous expression python did 2.5 ** 2 and then add the negative sign giving -6.25
+print(pow(-2.5, 2)) # 6.25, because pow() is essentially evaluating the expression passed in 1st and 2nd argument first and then taking the power. just like the above (-2.5) ** 2
+
+print(abs(-1.00000001))
+print(abs(-0.0000001))
+print(abs(0.0)) # 0.0
+print(abs(-5)) # 5. so it returns the same object type as the one that you have passed.
+
+
+### math module
+import math
+
+print(math.pi, math.e)
+
+print(math.sin(2 * math.pi / 180)) # should be 0 but because of decimal value of pi we get a value very close to zero but not exactly zero.
+# math.cos(), math.tan()
+print(math.sqrt(9), math.sqrt(9.5))
+# math.sqrt(-5) throws ValueError because it doesn take negative inputs. because neg input will result in a complex number and math module does not deal with complex numbers.
+
+print(sum((1,2,3,4))) # sum() takes an iterable as input
+print(sum([1,5,6.5]))
+print(min([47,642,8,4]))
+print(min(76,4,3,26,4)) # min() and max() also accept individual arguments, not just iterable
+print(max((867,3342,7,8,42)))
+
+
+# we met truncation and flooring before, we can also do rounding
+print(round(3.556, 2)) # 3.56
+print(round(3.555, 2)) # 3.56
+print(round(3.545, 2)) # 3.54, not 3.55
+print(round(0.543, 1)) # 0.5
+print(round(0.456, 0)) # 0.0
+print(round(3.56), round(-3.56)) # round() returns an integer by default unless 2nd argument for how many digits to
+# round to is provided
+# prints 4, -4
+print(round(2.5), round(3.5), round(-3.5)) # prints 2 4 -4
+
+print(math.floor(-3.56)) # -4
+print(math.floor(3.56)) # 3
+
+print(math.trunc(-3.56)) # -3
+print(math.trunc(3.56)) # 3
+
+print(int(3.56), int(-3.56)) # 3, -3, int() does truncation
+
+print('%.1f' %2.567, '{0:.2f}'.format(2.567))
+
+# square roots
+print(math.sqrt(9.5))
+print(math.sqrt(9)) # returns 3.0, i.e. math.sqrt() will return float always
+print(9 ** 0.5) # 3.0
+print(pow(9, 0.5)) # 3.0
+
+# random numbers
+import random
+print(random.random()) # random number in the interval [0,1)
+print(random.randint(10, 25)) # random integer in the interval [a,b] , i.e. including both end points
+
+e = [456,63,2,77,86534,12,87896,32]
+print(random.choice(e)) # choose a random item from a non-empty sequence
+print(random.choices(e, k=3)) # picks out k times at random from the sequence with replacement with equal probability. there is also weights and cum_weights parameters that we can pass.
+
