@@ -298,23 +298,29 @@ x = 50
 y = 'spam'
 z = [43.21, 'ham']
 print(x, y, z) # every object is sep by single space as sep=" "
+# there is no need to convert objects to str here, as would be required for file write methods.
 print(x, y, z, sep="-")
 
 print(x, y, 'banana republic', end=""); print(47.668)
-print(x, y, z, sep="+", end="...!")
+print(x,z,y, end="")
+print("not printing on a new line because above print statement has end='' set.")
+print(x, y, z, sep="+", end="...!\n")
 
 # output redirection
 print(x, y, z, file=open('print_tests.txt', 'w'))
+# note that 'w' mode truncates the file content already present and then adds this line. to append, use 'a'
 
 print(open('print_tests.txt', 'r').read()) # this is just reading from a file
+
 
 text = '%s: %-.4f, %05d' % ('Result', 3.14159, 42)
 print(text)
 print('%s: %-.4f, %05d' % ('Result', -83.14159, 42764676))
 
 import sys
+import datetime
 sys.stdout = open('log.txt', 'a') # append mode
 print(x, y, z)
-print('hello world')
+print(f'hello world {datetime.datetime.now()}')
 
 
