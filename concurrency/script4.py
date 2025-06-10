@@ -29,5 +29,3 @@ finish = time.perf_counter()
 
 print(f'Finished in {finish - start:.2f} seconds.') # using .2f in strings is equivalent to using round(finish - start, 2)
 
-# script takes 2 seconds as expected
-
