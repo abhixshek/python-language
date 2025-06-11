@@ -318,9 +318,14 @@ print(text)
 print('%s: %-.4f, %05d' % ('Result', -83.14159, 42764676))
 
 import sys
+a = 5
+b = [3, 7, 'new']
+sys.stdout.write(str(a) + ' ' + str(b) + '\n') # ths is equivalent to print(a, b)
+print(a,b)
+
+
 import datetime
 sys.stdout = open('log.txt', 'a') # append mode
 print(x, y, z)
 print(f'hello world {datetime.datetime.now()}')
-
 
