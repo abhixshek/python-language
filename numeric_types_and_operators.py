@@ -271,3 +271,43 @@ e = [456,63,2,77,86534,12,87896,32]
 print(random.choice(e)) # choose a random item from a non-empty sequence
 print(random.choices(e, k=3)) # picks out k times at random from the sequence with replacement with equal probability. there is also weights and cum_weights parameters that we can pass.
 
+
+### Decimal numeric type
+print(0.1 + 0.1 + 0.1 - 0.3) # should print 0.0 but it prints 5.17892342e-17 which is close to zero but not exactly 0.0
+# however with decimals the result can be dead-on
+from decimal import Decimal
+
+result = Decimal('0.1') + Decimal('0.1') + Decimal('0.1') - Decimal('0.3')   
+print(result) # exactly 0.0
+print(type(result))
+
+result = Decimal('0.1') - Decimal('-0.005') # different no. of decimal places involved in the expression, python automatically converts up to the largest no. of decimal digits.
+print(result)
+
+import decimal
+
+result = decimal.Decimal('1') / decimal.Decimal('3')
+print(result) # prints 0.333333 but should have been limited to 0 decimal places because the operands did not have any. 
+# to set the precision explicitly do below:
+decimal.getcontext().prec = 4
+result = decimal.Decimal('1') / decimal.Decimal('3')
+print(result) # prints 0.3333
+
+# this is especially useful for monetary applications
+dollars = 1999
+adds = 1.33
+print(dollars + adds)
+
+# context manager to set Decimal precision temporarily
+print(decimal.Decimal('1.00') / decimal.Decimal('3.00'))
+
+with decimal.localcontext() as ctx:
+    ctx.prec = 2
+    print(decimal.Decimal('1.00') / decimal.Decimal('3.00')) # only 2 decimal places this time
+
+print(decimal.Decimal('1.00') / decimal.Decimal('3.00')) # back to many decimal places
+
+### Fraction types
+
+
+
