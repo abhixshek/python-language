@@ -329,3 +329,6 @@ sys.stdout = open('log.txt', 'a') # append mode
 print(x, y, z)
 print(f'hello world {datetime.datetime.now()}')
 
+# similarly we also have sys.stderr which is an opened file for your program's standard error stream.
+print("ALERT " * 8, file=sys.stderr)
+
