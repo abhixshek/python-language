@@ -349,6 +349,74 @@ print(result)
 print(type(result))
 
 #### set core type
+# unordered collection of immutable objects
+# because they are unordered, there is indexing allowed. that is sets are not a sequence.
 
+a = 'spam'
+b = set(a) # a should be an iterable
+print(b)
+print(type(b))
+
+a = [4,76,3,8,2,2,2,4]
+b = set(a)
+print(b) # notice it has only one 2, one 4. no repetition of the same element
+
+
+# mathematical operations on sets
+print(8 in b) # True, membership testing
+
+c = set([2,4,8,16,20,325,267,72,11])
+print(c)
+print(b - c) # elements of b not in c, difference. NOTE that there is no + operator for sets because it has no meaning in set theory.
+print(b | c) # union
+print(b & c) # intersection
+print(b ^ c) # symmetric difference (XOR)
+
+d = {2,4,8}
+print(d < c, d > c) # subset, superset
+
+d.add('spam') # adds an item to the set in-place
+print(d)
+
+d.update({4,9,10}) # dont get confused. update here is only a union operation. the result is assigned to d in-place
+print(d)
+
+e = {2,100}
+print(d.intersection(e)) # unlike union, intersection method does not change the object in-place
+print(d) # d is still unchanged
+
+d.remove(10) # in-place removes element
+print(d)
+# if you pass an element that does not exist in the set to .remove() you will get a KeyError
+
+for item in set([2, 5, 9]):
+    print(item ** 2) # not necessary that 2 ** 2 = 4 will be printed first as sets are unordered.
+
+a = {4,5,8}
+print(a)
+a.update([9,10,3,5]) # union operation between set and list possible through the set method. but a | [9,10,3,5] would throw TypeError
+print(a)
+
+print(a.issubset(range(-5,15)))
+
+s = set(range(-2, 5)) # converts this range into a set. although the order wont be retained.
+print(s)
+
+
+### Boolean type, bool
+r = True
+e = False
+print(r, e)
+print(type(r), type(e))
+
+w = r + 5 # True + 5
+print(w) # 6, because True is just an integer 1
+
+print(isinstance(True, int)) # prints True. that means class bool is nothing but a subclass of class int
+
+print(e == 0) # True, because False is nothing but 0
+print(e is 0) # False, the values are same but the objects are not the same in memory
+print(True or False) # same as 1 or 0. prints True
+print(False or 5 or True) # prints 5. see the discussion of and, or operators in the if_tests.py file
 
 
