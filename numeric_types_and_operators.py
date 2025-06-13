@@ -402,6 +402,36 @@ print(a.issubset(range(-5,15)))
 s = set(range(-2, 5)) # converts this range into a set. although the order wont be retained.
 print(s)
 
+# to create a set you can either use curly braces like {4, 5, 8} or use set built-in function and do set([4, 5, 8])
+# This syntax makes sense, given that sets are essentially like valueless dictionaries- because they are unordered, unique, and immutable, a set’s items behave much like a dictionary’s keys.
+
+d = {'a': 5, 'b': 10}
+print(d)
+print(d.keys()) # dict_keys object
+e = {'a': 22, 'c': 50}
+
+print(d.keys() | e.keys()) # dict_keys objects support set like union and intersection operations
+
+a = {} # empty dictionary, NOT A SET
+print(type(a)) # dict
+# to create empty sets, use set()
+a = set()
+print(a)
+print(type(a))
+
+# sets can only contain immutable types, i.e. hashable objects. therefore cannot contain lists and dictionaries
+# but can contain tuples
+a = {4, 5, 8}
+print(a)
+a.add((1,2,3))
+print(a)
+a = a | {(4,5,6), (1,2,3)}
+print(a)
+
+# set comprehension
+a = {x ** 2 for x in [2, 7, 9, 10]}
+print(a, type(a))
+
 
 ### Boolean type, bool
 r = True
