@@ -307,7 +307,48 @@ with decimal.localcontext() as ctx:
 
 print(decimal.Decimal('1.00') / decimal.Decimal('3.00')) # back to many decimal places
 
-### Fraction types
+### Fraction type
+from fractions import Fraction
+
+x = Fraction(1, 3) # 1/3, which is num,den
+y = Fraction(4, 6) # 2/3 as 4/6 is reduced by greatest common denominator (gcd) to 2/3
+z = Fraction(3, 7)
+print(x)
+print(y)
+print(x * z) # 3/21 = 1/7
+print(x + z) # 16/21
+print(x - y)
+
+a = Fraction('1.25')
+b = Fraction('0.33333')
+c = Fraction('-1.5')
+print(a)
+print(b)
+print(c)
+print(type(c))
+result = Fraction(1, 10) + Fraction(1, 10) + Fraction(1, 10) - Fraction(3, 10)
+print(result) # gives Fraction(0,10) which is accurate as opposed to floating point math which was giving a number close to zero but not exactly zero
+
+
+# mixed type conversions
+a = (2.5).as_integer_ratio()
+print(a, type(a)) # tuple
+
+f = 2.5
+b = Fraction(*f.as_integer_ratio()) # * expands the tuple into arguments to the function
+print(b)
+print(type(b))
+
+c = 2
+d = 3.5
+result = b + c # fraction + int -> fraction
+print(result)
+print(type(result))
+result = b + d # fraction + float -> float
+print(result)
+print(type(result))
+
+#### set core type
 
 
 
