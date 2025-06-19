@@ -8,7 +8,7 @@ a = 'city"s' # duoble quote as part of string using single quotes on the outside
 print(a)
 a = '''Hi my name is John.
 This is a multiline string.'''
-print(a)
+print(a) # every next line inside the triple quotes becomes a new line (i.e. a \n is added automatically at the end of each line)
 a = """
 Hi my name is John.
 This is a multiline string."""
