@@ -30,7 +30,7 @@ print(a) # spanned across multiple lines by enclosing in parenthesis. # prints '
 # notice no \n are inserted even though it might appear like that. this is simple concatenation alllowed to be written on multiple lines due to using parenthesis.
 
 a = 'first', 'last'
-print(a) # a is a tuple. ('first', 'last')
+print(a) # a is a tuple. ('first', 'last'). NOT A SINGLE STRING OBJECT.
 # recall you dont need to give parenthesis for tuples necessarily.
 
 a = 'city\'s'
@@ -53,6 +53,9 @@ d = 'C:\py\code' # if python does not recognize a valid escape sequence after \,
 print(d) # prints 'C:\py\code'
 print(len(d)) # 10
 
+e = 'a\0bc' # \0 is a NULL character, i.e. nothingness
+print(len(a)) # 4, because \0 is a character, even though you dont see it when printing.
+print(e) # prints abc
 
 # raw strings - turns off escape sequences
 file_path = r'C:\new\text.dat' # this will not lead to interpreting \n as newline and \t as tab in this string. 
