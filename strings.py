@@ -63,10 +63,12 @@ file_path = r'C:\new\text.dat' # this will not lead to interpreting \n as newlin
 print(len(file_path)) # 15
 
 # NOTE even raw strings CANNOT end with a backslash.
+s = 'abc\\' # use regular strings and escape the backslash.
+print(s) # prints abc\
 
 mantra = """Always look
  to the bright
-side of life."""  # this is nothing but 'Always look \n to the bright\nside of life.'
+side of life."""  # this is nothing but 'Always look\n to the bright\nside of life.'
 print(mantra)
 
 a = 'abc'
