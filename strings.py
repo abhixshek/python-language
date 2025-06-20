@@ -77,7 +77,7 @@ print(len(a)) # 3 as its a sequence with 3 elements/objects
 s = 'abc' + 'def' # string concatenation
 print(s)
 
-print(a * 4)  # string repetition
+print(a * 4)  # string repetition. does not change a ofcourse. remember strings are immmutable type.
 
 s = 'hacker'
 print('k' in s) # True
@@ -87,6 +87,11 @@ d = 'He is\n good'
 print('is' in d) #true
 print('n' in d) # false, note that there is \n and not n. \n is a single character
 print('\n' in d) # true
+
+# NOTE using in for membership test is an alternative to the string object's .find() method. .find() returns the index of the substring if found else -1. in membership test only returns true or false
+f = d.find('\n')
+print(f) # 5, is the index.
+
 
 for char in s:
     print(char, end=" ")
@@ -113,6 +118,13 @@ print(s[5:1:-1]) # 'tupm'. note that upper bound in this case index 1 is not inc
 
 print(s[slice(5, 1, -1)]) # same as above just using the slice object
 print(s[slice(None, None)]) # same as s[:]
+
+# when giving single indexes, make sure the negative index passed is not less than -len(s). i.e. in the above example s = 'computer'. len(s) is 8
+# s[-8] gives you s[8-8] = s[0] = 'c'. 
+# BUT s[-9] gives you s[8-9] = s[-1] BUT it does not return 'r'. instead it becomes a list index out of range error, i.e. IndexError
+# but when doing slicing, the offsets smaller than 0 and offsets greater than len(s) -1 are also acceptable and they just truncate down to the maximum extreme possible on that end.
+# example
+print(s[-9:3]) # prints 'com' because len(s) - 9 = -1 and this -1 is adjusted automatically to the lowest extreme possible on the left bound which is 0. therefore it becomes s[0:3]
 
 
 print(int('42'), str(42))
