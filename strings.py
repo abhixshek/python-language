@@ -133,7 +133,7 @@ print(repr('spam')) # prints 'spam' not just spam, i.e. it prints single quotes 
 print(float('56.78'))
 print(float('1.23e4'))
 
-print(ord('A'))
+print(ord('A')) # ASCII value of the character is returned
 print(ord('a'))
 # print(ord('az')) # error. because ord() takes in a single character only. 
 print(ord('\n')) # 10
@@ -143,14 +143,19 @@ print(chr(98))
 print(ord('5'))
 
 ######
-# Convert a string of binary values into integer
+# Write a program to convert a string of binary values into integer
 B = '1101'
 I = 0
 while B != '':
     I = I * 2 + (ord(B[0]) - ord('0'))
     B = B[1:]
 
-print(I) # 13
+print(I) # 13, which is the decimal integer equivalent of the binary value 1101
+# ofcourse in python this operation is already handled by the int() function
+B = '1101'
+print(int(B, 2)) # prints 13
+
+
 
 ######
 
