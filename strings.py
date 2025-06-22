@@ -222,8 +222,12 @@ print('%s %s %s' % (23, 56.32, [45,99, 12,77]))
 print('going to %s' % 'work')
 # %s - strings, %d - integers
 print('pie is %d' % 3.14) # prints 'pie is 3' since %d converts to int and int(3.14) is 3
+print('pie is %d' % -3.14) # prints 'pie is -3'
+print('%o %x' % (15,15)) # prints decimal 15 as octal and as hex
 
-print("integers:...%d...%-6d...%6d...%06d" % (1234, 1234, 1234, 1234)) # normal, 6-character with left justification, 6-character with right justification, 6 character with right justification
+
+print("integers:...%d...%-6d...%6d...%06d" % (1234, 1234, 1234, 1234)) # normal, 6-character with left justification, 6-character with right justification,
+# and 6 character with right justification and filling in zeros on the left
 # and filled with zeros in places of blank space
 print("%3d" %123456) # this is more than 3 characters and so will be printed as it is 123456
 
@@ -234,12 +238,18 @@ print("%E"%num) # same as %e just that exponent sign e is uppercase E
 print('%.2f...%3.2f...%8.2f...%-8.2f...' % (num, num, num, num))
 print('%08.2f' %num)
 
-print('%.2e...%4.2e...%9.2e...%09.2e...'%(num, num, num, num))
+print('%.2e...%4.2e...%9.2e...%09.3e...'%(num, num, num, num))
 
 
 print("%.2f" %56.789) # rounds to 2 decimal places, not truncation.
 print("%+.2f"%56.789) # puts + sign at the front
 print("%-.2f"%56.789) # does not do anything, because the number is positive. cannot just put minus sign, it would be illogical. so does nothing. 
+
+print('%f, %.2f, %3.*f' % (1/3.0, 1/3.0, 4, 4563.4563230)) # NOTICE the * in the expression. that allows you to dynamically specify the width and precision by passing the value on the right of % operator. 
+# the 4 passed here specifies the precision in this case on the 3rd format code
+
+print('This:%+07.*fHERE' % (2,23.34234)) # prints +023.34 . note that in '%5.2f' 5 implies that a total of 5 characters or fields will be reserved for this number. this number includes both the left of decimal
+# + decimal point + right of decimal.
 
 # dictionary based formatting
 print("%(n)s %(t)d %(q).2f" %{"t": 78, "q": 67.289, "n": 'spam'})
