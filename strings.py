@@ -183,7 +183,7 @@ L[3] = 'C'
 L[4] = 'C'
 print(''.join(L))
 w = ['this', 'is', 'good'] # list of strings
-t = '-'.join(w)
+t = '-'.join(w) # this should be obvious but this join method works only when all items in the iterable are str objects. otherwise you will get a TypeError
 print(t)
 
 a = 'aaa bbb  ccc' # notice double space before ccc
