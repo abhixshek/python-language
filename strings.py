@@ -287,9 +287,19 @@ print('My {config[name]} runs {my_sys.platform}'.format(my_sys=sys, config={"nam
 somelist = list('SPAM')
 # print('{0} and {1}'.format(somelist)) # ERROR
 print('{0} and {1}'.format(somelist[0], somelist[-1]))
-print('{0[1]} and {0[0]}'.format(somelist)) # negative index and slices are not allowed, only positive integers
+print('{0[1]} and {0[0]}'.format(somelist)) # negative index and slices are not allowed, only positive integers. to deal with negative indices or slicing, do like the above print statement.
 print('{0} and {1}'.format(*somelist))
 
 t = 'boy', 22, [7,45,32.773] # tuple
 print('{2} and {1} and {0}'.format(*t))
+
+s = '{0:10}={1:7}'.format('spam', 23.564) # number before the : still refers to the positional argument passed to .format(). the formatting is specified after the :
+print(s) # 10 and 7 in the above specify field width.
+s = '{0:<4}'.format(2.5) # < means left justified and > means right justified
+print(s)
+print(len(s)) # 4
+
+s = '{0.platform:>10} = {1[item]:<10}'.format(sys, dict(item='laptop'))
+print(s)
+
 
