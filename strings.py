@@ -302,4 +302,14 @@ print(len(s)) # 4
 s = '{0.platform:>10} = {1[item]:<10}'.format(sys, dict(item='laptop'))
 print(s)
 
+s = '{0:e}, {1:.3e}, {2:g}'.format(3.14159, 3.14159, 3.14159)
+print(s)
+
+s = '{0:f}, {1:.2f}, {2:06.2f}'.format(3.14159, 3.14159, 3.14159)
+print(s)
+
+# hex, octal and binary formats are supported by the format method
+s = '{0:X} {1:o} {2:b}'.format(255, 255, 255)
+print(s)
+# this provides an alternative to using the built-in bin(), hex() and oct() functions.
 
