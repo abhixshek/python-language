@@ -151,3 +151,41 @@ print(a)
 a[1] = []
 print(a) # [4, [], 9, 2, 4, 1]
 
+
+
+### dictionaries
+d = {} # empty dict
+d = {'name': 'john', 'dob': '2000-12-12', 'height': 170.25}
+print(d)
+print(type(d))
+print(d['height']) # indexing by key
+# there is no fixed left-to-right ordering of keys. Python randomizes them, and so their position is not based on how you type them out. therefore there is no notion of positional indexing in dicts.
+# this is to allow for fast key lookup (a.k.a hashing)
+
+r = 'name' in d # key membership test
+print(r) # True
+
+print(len(d)) # no. of items stored in the dictionary or in other words, the length of its keys list
+
+w = d.keys()
+print(w)
+print(type(w)) # <class 'dict_keys'>
+
+# NOTE that d.key() is not subscriptable. its iterable but not subscriptable/indexable. because d.keys() is iterator. 
+# to do that run a list() call
+w = list(d.keys())
+print(w)
+print(w[1])
+
+d['name'] = ['john', 'makensy'] # updating the value of a key. also assigning a list as value makes this dictionary nested. 
+print(d)
+
+del d['height'] # updates the dict in-place as dict are mutable
+print(d)
+d['weight'] = 65
+print(d)
+
+
+
+
+

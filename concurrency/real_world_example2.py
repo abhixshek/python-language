@@ -1,6 +1,6 @@
 """
 Downloading high-res images from the internet.
-In this script we will do it syncronously and see how much time it takes and in the next example we will see if threading improves the overall time taken.
+In this script we will see if threading improves the overall time taken.
 """
 
 import concurrent.futures
