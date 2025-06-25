@@ -185,6 +185,37 @@ print(d)
 d['weight'] = 65
 print(d)
 
+v = list(d.values())
+print(v)
+r = list(d.items()) # list of tuples of key, value pairs
+print(r)
+
+# to avoid getting a KeyError when indexing a non-existent key, use .get() method
+print(d.get('weight')) # key exists so we get the value
+print(d.get('pay')) # non-existent key, returns None by default
+print(d.get('pay', 'unknown')) # prints unknown
+
+d1 = {'a': 10, 'b': 15}
+d2 = {'e': 22, 'b': 42}
+print(d1)
+print(d2)
+d1.update(d2) # updates d1 in-place with new key-value pairs from d2. does not return anything. if a key already exists in d1, it updates with the value found in d2.
+print(d1) # value of b got updated to 42 as found in d2
+
+r = d1.pop('a') # deletes the key 'a' from d1 and returns the associated value.
+print(r)
+print(d1)
+# if you try to pop a key that does not exist in the dictionary, you will get a KeyError
+d3 = d1 # shared references to the same dictionary object
+del d3['b']
+print(d3)
+print(d1) # both d1 and d3 updated as both point to the same object
+
+d4 = d1.copy() # creates a copy
+d4['g'] = 110
+print(d4) # updated
+print(d1) # un-changed
+
 
 
 
