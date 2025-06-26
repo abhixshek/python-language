@@ -216,7 +216,49 @@ d4['g'] = 110
 print(d4) # updated
 print(d1) # un-changed
 
+# iterating through a dictionary
+d = {'India': 'Delhi',
+     'UK': 'London',
+     'Germany': 'Berlin'}
 
+for key in d.keys():
+    print(key, ' -- ', d[key])
 
+for key in d: # works exactly like the above d.keys()
+    print(key, ' -- ', d[key])
+
+# different ways to create a dictionary
+d = {'name': 'john', 'age': 44}
+print(d)
+d = {}
+d['name'] = 'john'
+d['age'] = 44
+print(d) # same as above
+
+d = dict(name='john', age=44)
+print(d) # same as above
+d = dict([('name', 'john'), ('age', 44)])
+print(d) # same as above
+
+# to create a dict with all keys having an initial default value
+d = dict.fromkeys(['a', 'b', 'c'])
+print(d) # each value is None
+d = dict.fromkeys(['a', 'b', 'c'], 0)
+print(d) # each value is 0
+
+# dictionary comprehension
+l = list(zip(['a', 'b', 'c'], [7,3,5]))
+print(l)
+d = dict(zip(['a', 'b', 'c'], [7,3,5]))
+print(d)
+
+d = {k: v for (k,v) in zip(['a', 'b', 'c'], [7, 3, 5])}
+print(d)
+
+D = {c: c * 4 for c in 'SPAM'}
+print(D)
+
+D = {k: None for k in 'spam'} # similar to dict.fromkeys() above
+print(D)
 
 
