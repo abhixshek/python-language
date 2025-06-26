@@ -313,3 +313,16 @@ s = '{0:X} {1:o} {2:b}'.format(255, 255, 255)
 print(s)
 # this provides an alternative to using the built-in bin(), hex() and oct() functions.
 
+# dynamic formatting options using nested {}
+s = '{0:.{1}f}'.format(2.57238, 2)
+print(s) # 2.57
+
+# to format a single item, there is a built-in format() function
+s = format(2.57238, '.2f')
+print(s)
+print(type(s)) # the formatted item will be a str
+# Technically, the format built-in runs the subject object’s __format__ method, which the str.format method does internally for each formatted item. 
+
+s = '{0:,d}'.format(99999999) # comma thousand separator
+print(s) # 99,999,999
+

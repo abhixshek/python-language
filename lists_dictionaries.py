@@ -261,4 +261,51 @@ print(D)
 D = {k: None for k in 'spam'} # similar to dict.fromkeys() above
 print(D)
 
+d = dict(a=1, b=5, c= 3)
+print(d)
+k = d.keys()
+print(k) # iterable, but not a list, therefore cannot index. # d.keys() is also called a dictionary view. same applies to d.values() and d.items()
+print(type(k))
+print(list(k)) # force a list
+d['g'] = 43
+print(d)
+print(k) # updated with the new key 'g' even though k was assigned before this new key was created
+
+for i in d.keys():
+    print(i)
+
+
+# although for iteration you dont even need to call .keys()
+for i in d:
+    print(i) # same as above loop
+
+# dictionary key view objects are set like and support set operations as well. item view using d.items() are also set like if there items are all hashable and immutable. but d.values() are not since values can be repeated
+k = d.keys()
+w = dict(a=7, e=10, k=15) # note that the keyword argument k does not overwrite the k you have assigned in the above statement. 
+print(w)
+result = k & w.keys() # intersection
+print(result)
+print(type(result)) # class set
+print(k | {'b', 'h'}) # union
+print(k | {'b': 55, 'j': 99}) # union between dict_keys and dict
+
+# set(d.items()) will not work in cases where d has a key with a value that is mutable like a list. for example d = {'a': [4, 5], 'b': 99}. 
+# and therefore for such a dict's items() view above set operations will not work. 
+
+d = {'z': 10, 's': 2, 'b': 40}
+print(d)
+ks = d.keys() # dict_keys
+print(ks)
+# ks.sort() will not work as no such method exists
+a = sorted(ks) # sorted() built in always returns a list
+print(a)
+print(type(a)) # list
+
+for i in a:
+    print(i, '--', d[i])
+
+# or use sorted() directly on the dictionary object d
+for i in sorted(d):
+    print(i, '--', d[i])
+
 
