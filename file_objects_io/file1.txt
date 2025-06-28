@@ -1,0 +1,5 @@
+This is a txt file.
+It contains special characters like !)$^#&!${}:"'>?<\
+5 / 4
+Notice it even contains a backslash that is escaped (using double backslash) when read in python as a string
+I am keeping one blank line at the end of the file
