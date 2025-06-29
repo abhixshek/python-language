@@ -1,0 +1,4 @@
+Hello, this is a line from a string written in 	python.
+2 + 2 = 4
+another line in the file.
+
