@@ -69,3 +69,53 @@ a = ('spam', 98, [2, 5], 23.67)
 print(a)
 a[2][1] = 100 # cannot do a[2] = some object. will get TypeError 
 print(a)
+
+
+# None object
+a = None
+print(a)
+print(type(a))
+print(not a) # not a becomes True
+# to allocate a 100 item list for later use if list's contents are not yet known to you
+a = [None] * 100
+print(a)
+print(len(a))
+
+# python provides a bool() built-in to test for boolean value of an object
+print(bool(1)) # True
+print(bool([5, 6])) # True
+print(bool({})) # False
+
+# type objects
+x = [4, 5, 6]
+t = type(x) # class list
+print(t)
+print(type(t)) # class type
+print(type([1]) == type([]))
+print(type([1]) == list)
+print(isinstance([1], list))
+
+import types # types contains other type names as well
+def f(): pass
+print(type(f) == types.FunctionType) # True
+
+# repetition important points
+l = [4, 5, 6]
+print(l)
+e = l * 4 # same as [4, 5, 6] + [4, 5, 6] + ...
+print(e)
+l[1] = 33
+print(l)
+print(e) # e is unchanged
+
+l = [4, 5, 6]
+r = [l] * 4 # same as [l] + [l] + [l] + ...
+print(r)
+l[1] = 67
+print(l)
+print(r) # r changed
+# the thing to remember here is that repetition, concatenation and slicing copy only the top level of their operand
+# objects
+
+
+

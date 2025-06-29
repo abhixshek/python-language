@@ -103,3 +103,25 @@ objects = [eval(P) for P in parts]
 print(objects)
 print(type(objects[0])) # list
 print(type(objects[1])) # dict
+
+# storing python objects with pickle
+D = {'a': 45, 'b': 33}
+F = open('datafile.pkl', 'wb')
+import pickle
+pickle.dump(D, F)
+F.close()
+
+# reading the data back
+F = open('datafile.pkl', 'rb')
+print(F.read()) # you cannot decode the binary data directly but pickle can
+F = open('datafile.pkl', 'rb')
+E = pickle.load(F)
+print(E)
+print(type(E)) # dict
+
+# file context managers
+with open('file3.txt') as text_file:
+    print(text_file.readline())
+# text_file gets automatically closed outside the content manager
+# running print(text_file.readline()) outside the context manager will lead to ValueError as `text_file`
+# has already been closed
