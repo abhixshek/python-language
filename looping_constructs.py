@@ -45,10 +45,46 @@ x = 10
 while x > 0:
     x = x - 1
     if x % 2 == 0:
-        print(x, end=" ")
+        print(x, end=" ") # prints 8 6 4 2 0
 
 print()
 
 # break - terminate the enclosing loop
+x = 9
+while x > 0:
+    x -= 1
+    if x % 3 == 0: break
+    print(x, end=" ") # prints 8 7
+
+print()
+
+# loop else. the else clause of loops is executed when no break statement is encountered. Also when the while loop never starts because the condition never evaluated to True to begin with, even then
+# else clause is run.
+
+def is_prime(x):
+    if x == 1:
+        print('1 is neither prime or a composite number.')
+        return None # need to do this because otherwise the else clause of the while loop will run for x=1 even though the while loop test condition was never true, the else part runs because break statement
+    # was not encountered.
+
+    y = x // 2 # floor division by 2
+    while y > 1:
+        if x % y == 0:
+            print('%i is not a prime number.' %x)
+            break
+        y -= 1
+    else:
+        print('%i is a prime number.' %x)
+
+is_prime(1)
+is_prime(2)
+is_prime(3)
+is_prime(10)
+is_prime(19)
+
+
+# for loops
+
+
 
 
