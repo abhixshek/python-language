@@ -17,5 +17,5 @@ class Employee:
     "class documentation"
     pass
 
-print(square(4))
-print(square.__doc__)
+# print(square(4))
+# print(square.__doc__)
