@@ -13,5 +13,41 @@ multiplier = times # you can assign new names that reference the name function o
 r = multiplier(3, 8)
 print(r)
 
+# function to find out the common items in sequences (characters in strings)
+def intersect(seq1, seq2):
+    result = [] # start empty
+    for item in seq1: # scan seq1
+        if item in seq2: # common item?
+            result.append(item) # add to end
+
+    return result
+
+s1 = 'spam'
+s2 = 'scam'
+r = intersect(s1, s2)
+print(r) # ['s', 'a', 'm']
+
+s1 = 'school'
+s2 = 'college'
+r = intersect(s1, s2)
+print(r) # ['c', 'o', 'o', 'l']
+
+# To be fair, our intersect function is fairly slow (it executes nested loops), isn’t really
+# mathematical intersection (there may be duplicates in the result), and isn’t required at
+# all (as we’ve seen, Python’s set data type provides a built-in intersection operation).
+
+def intersect(seq1, seq2):
+    # this is shorted to code and better but its still nested loops
+    # recall in operator is implicitly doing a search
+    res = [x for x in seq1 if x in seq2]
+    return res
 
 
+s1 = 'school'
+s2 = 'college'
+r = intersect(s1, s2)
+print(r) # ['c', 'o', 'o', 'l']
+
+# polymorphism in action
+r = intersect([1, 4, 6, 3], (3, 4)) # mixed types
+print(r) # [4, 3]
