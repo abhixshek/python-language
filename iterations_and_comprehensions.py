@@ -131,3 +131,49 @@ print('Iterating through I')
 print(I.__next__())
 print(next(I))
 
+# list comprehensions
+L = [5, 8, 3, 2, 9]
+print(L)
+for i in range(len(L)):
+    L[i] += 10
+print(L)
+
+# the above works, but can be done faster using a list comprehension
+L = [5, 8, 3, 2, 9]
+L = [i + 10 for i in L]
+print(L)
+
+# in the context of files for example, when we read the lines, we get a `\n` at the end of each line except maybe the last line may or not have it.
+# but we could iterate through the lines and remove the right side whitespace using line.rstrip() on each line and construct a new list.
+f = open('file_objects_io/file1.txt')
+lines = f.readlines()
+print(lines)
+lines = [line.rstrip() for line in lines]
+print(lines)
+
+# an even better approach is to not read all the lines first and let the iteration protocol take care of doing that as below
+lines = [line.rstrip() for line in open('file_objects_io/file1.txt')]
+print(lines)
+# for large files, the speed advantage of list comprehensions can be significant compared to using a for loop
+
+# you can chain multiple operations on a string object as each operation produces a new string
+lines = [line.rstrip().split() for line in open('file_objects_io/file1.txt')]
+print(lines)
+
+
+lines = [('it' in line, line[0]) for line in open('file_objects_io/file1.txt')] # you can have any expression you want. here we are making tuples
+print(lines)
+
+# if clause within list comprehensions to filter out the results
+lines = [line.rstrip() for line in open('file_objects_io/file1.txt') if line[0] == 'I']
+print(lines)
+
+# more complex form of list comprehension with nested iteration
+res = [x + y for x in 'abc' for y in 'lmn']
+print(res)
+# its equivalent for loop statement is as shown below:
+res = []
+for x in 'abc':
+    for y in 'lmn':
+        res.append(x + y)
+print(res)
