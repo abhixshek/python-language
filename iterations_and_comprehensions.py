@@ -232,3 +232,81 @@ print(c)
 # dict(), set(), set and dict comprehensions all use iteration protocol
 r = {ix: line for (ix, line) in enumerate(open('file_objects_io/file1.txt')) if line[0] == 'I'}
 print(r)
+
+# function calls also accept *args to unpack a collection of values. this can be any iterable again.
+def add(a, b):
+    return a + b
+
+r = add(5, 4)
+print(r)
+r = add(*(6, 8)) # tuple unpacking
+print(r)
+
+def f(a, b, c, d, e): print(a, b, c, d, e, sep="&")
+
+f(4, 5, 6, 7, 5)
+f(*[9, 7, 2, 3, 6])
+
+f(*open('file_objects_io/file1.txt'))
+
+# unzip a zip using this form of argument passing
+a = [1,2]
+b = [3,4]
+print(a)
+print(b)
+t = list(zip(a, b))
+print(t)
+a, b = zip(*zip(a, b)) # think of it as zip((1, 3), (2, 4))
+# recall, sequence assignment also uses iteration protocol. therefore a,b = zip() works.
+print(a) # same as a above. just that now its a tuple, not a list
+print(b) # same as b above
+
+
+# range() returns an iterator, not a list
+r = range(10)
+print(r)
+print(type(r))
+t = iter(r) # range is not its own iterator
+print(t.__next__())
+print(next(t))
+print(list(t)) # only the remaining elements
+print(list(r)) # full range as r and t are different objects
+
+print(len(r)) # range objects support len()
+print(r[2]) # range objects also support indexing
+print(r[-1])
+
+# unlike range() though, map(), zip() and filter() are their own iterators
+m = map(abs, [-1, -3, 0, 4, -7])
+print(iter(m) is m) # True
+print(m.__next__())
+print(next(m))
+print(list(m)) # only the remaining elements
+
+# this difference means that with range() you can create multiple iterators on its result like I1 = iter(r), I2 = iter(r) and then each of these iterators i1, i2, etc. can be at different locations
+# on the range() object based on how many times next() is applied on each of these.
+# but with others like map(), zip(), filter() this does not work.
+
+f = filter(bool, ['spam', [], {}, '', 5]) # returns only the items which are True, which in python also means non-empty
+print(f)
+print(type(f))
+print(f.__next__())
+print(next(f)) # the next print(next(f)) will cause StopIteration error because there were only 2 True items in the iterable I had passed. 
+
+d = dict(a=2, e=3, b=-5)
+print(d)
+k = d.keys()
+print(k)
+print(type(k))
+# next(k) does not work as views are not iterators themselves
+I = iter(k)
+print(next(I))
+print(I.__next__())
+print(next(I))
+
+# same applies for d.values() and d.items() objects. they are also views
+
+# for scanning a sorted dictionary just use sorted() on dict object
+for key in sorted(d): print(key, d[key], sep="--> ")
+
+
