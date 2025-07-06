@@ -177,3 +177,58 @@ for x in 'abc':
     for y in 'lmn':
         res.append(x + y)
 print(res)
+
+# other iteration contexts
+# the for loop, list comprehension, in membership tests, map(), sorted(), zip() all of these use the iteration protocol. i.e. anything that scans from left to right uses the iteration protocol.
+r = 'Notice it even contains a backslash that is escaped (using double backslash) when read in python as a string\n' in open('file_objects_io/file1.txt')
+# think of this expression as asking the question if "this line" in the file. i.e. in operator is not checking for words or characters here but entire line
+
+print(r) # True
+# NOTICE we did not even have to read the entire file contents at once to use the in operator
+
+m = map(str.upper, open('file_objects_io/file1.txt'))
+print(m)
+print(type(m))
+print(list(m))
+# map is similar to a list comprehension but is more limited because it requires a function instead of an arbitrary expression.
+# It also returns an iterable object itself in Python 3.0, so we must wrap it in a list call to force it to give us all its values at once.
+m = map(str.upper, open('file_objects_io/file1.txt'))
+print(m.__next__()) # prints the 1st line in uppercase
+print(next(m)) # prints the 2nd line in uppercase
+
+r = sorted(open('file_objects_io/file1.txt')) # sorted() returns a list object and not an iterable unlike map().
+# but sorted() takes as input any iterable, not just list
+print(r)
+
+D = {'s': 4, 'y': 34, 'a': 100}
+print(D)
+print(sorted(D)) # returns a list of sorted keys
+
+# other built ins that use the iteration protocol include sum(), min(), max(), any(), all(). note that all of these listed here return a single value/result
+r = sum(range(5)) # sum() works on numbers only.
+print(r)
+a = [5,8,3,7,8,2]
+print(min(a))
+print(max(a))
+
+r = any(['spam', [], (), {}, ''])
+print(r) # True
+r = all(['spam', [], (), {}, ''])
+print(r) # False
+
+# list() and tuple() also use the iteration protocol
+r = list(open('file_objects_io/file1.txt'))
+print(r)
+r = tuple(open('file_objects_io/file1.txt'))
+print(r)
+r = '&&'.join(open('file_objects_io/file1.txt'))
+print(r)
+
+a, b, *c = open('file_objects_io/file1.txt') # sequence assignment uses iteration protocol too
+print(a)
+print(b)
+print(c)
+
+# dict(), set(), set and dict comprehensions all use iteration protocol
+r = {ix: line for (ix, line) in enumerate(open('file_objects_io/file1.txt')) if line[0] == 'I'}
+print(r)
