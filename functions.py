@@ -51,3 +51,32 @@ print(r) # ['c', 'o', 'o', 'l']
 # polymorphism in action
 r = intersect([1, 4, 6, 3], (3, 4)) # mixed types
 print(r) # [4, 3]
+
+# ============= Scopes / Namespaces ================ # 
+x = 5
+def func():
+    x = 10
+    print(x)
+
+func() # prints 10
+print(x) # still 5
+# the x inside func() is inside func's namespace and the x outside (in the module) is in this module's namespace
+# so even though both names are x, they are distinct. infact the x inside def is not even available outside the func() body. its garbage collected.
+
+# anything that is assigned inside a def, will become local to that function. 
+def func2():
+    import os
+    print(os.getcwd())
+
+func2()
+try:
+    print(os.getcwd()) # raises NameError as os was never defined in the module namespace
+except NameError:
+    print('os module was never available outside the func2. because the name `os` exists inside func2 only.')
+    print('therefore our try statement failed and we are in the except clause.') # above try failed and so this statement, i.e. the except part runs
+
+
+def func3():
+    importt sys
+
+
