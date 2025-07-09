@@ -76,7 +76,85 @@ except NameError:
     print('therefore our try statement failed and we are in the except clause.') # above try failed and so this statement, i.e. the except part runs
 
 
-def func3():
-    importt sys
+import builtins # contains everything in the built-in scope/namespace. 
+print(builtins is __builtins__)
+print(dir(builtins)) # notice open(), len(), True, False, list(), zip(), the built-in exceptions, etc.
+# you find in the list names None, True and False as well. though they are treated as reserved words.
+
+# so you can either directly use the built in names in your program or import builtins then use that name
+print(len([3, 4]))
+# or do
+print(builtins.len([3, 5]))
+
+# python has LEGB rule, which is search local first then enclosing then global then builtins
+# which means builtin names can be overidden. 
+def func():
+    open = "spam"
+    # f = open('file_objects_io/file1.txt') # this will not run now as open refers to str object now. therefore having this open() statement raises SyntaxError on function call.
+    print(open)
+    print(type(open))
+
+
+func()
+f = open('file_objects_io/file1.txt') # outside the function we are back to the builtin scope's open. and that open initialized inside the above function is not available here.
+# infact if I assign open to something here in the module namespace then I permanently loose the open() file constructor in the rest of my program.
+print(f.readline())
+
+
+# global statement
+x = 10
+# global statement cannot be typed at the module level, i.e in the top level of the module file. It will result in syntaxError.
+print(x)
+
+def func():
+    global x
+    global v
+    print(x)
+    x = 40 # global x gets changed
+
+
+func()
+print(x) # x in the module level which was previously 10 is now having value 40
+# NOTE that in the above function definition we have global v statement and even though v name does not exist yet in the program, the func call did not raise any NameError.
+# but doing this does not achieve anything because when you use v in any expression, you will then get a NameError.
+x = 15
+v = 30
+print(x, v)
+def func():
+    global x, v # declaring multiple names as global
+    print(x, v)
+    x, v = [6, 7], 'spam'
+    print(x, v)
+func()
+print(x, v)
+
+y, z = 1, 2
+print(y, z)
+def func():
+    global x
+    x = y + z
+
+func()
+# NOTE that x, y, z are all global. y and z are global because they are not assigned in the function. also note that y and z were never assigned inside the function def
+# but python's LEGB rule find them in the module automatically.
+# had x not been declared global in the def it would have been a local variable to the function and not accessible outside the function.
+print(y, z)
+print(x) # x which was assigned inside def is even available outside, i.e, in the module scope even though it did not even exist before the function call. the assignment statment inside def created it
+# in the module namespace (because of global declaration)
+# prints 3
+
+
+# minimize and avoid using global in your programs as it leads to difficulty in debugging as different functions at different times during the execution of your program may be changing the global variabl's
+# value, it becomes difficult to track.
+x = 99
+def func1():
+    global x
+    x = 88
+
+def func2():
+    global x
+    x = 77
+# Now, imagine that it is your job to modify or reuse this module file. What will the value of X be here? Really, that question has no meaning unless it’s qualified with a point of
+# reference in time—the value of X is timing-dependent, as it depends on which function was called last (something we can’t tell from this file alone).
 
 
