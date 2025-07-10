@@ -157,4 +157,21 @@ def func2():
 # Now, imagine that it is your job to modify or reuse this module file. What will the value of X be here? Really, that question has no meaning unless it’s qualified with a point of
 # reference in time—the value of X is timing-dependent, as it depends on which function was called last (something we can’t tell from this file alone).
 
+# minimize cross-file changes:
+# although we can change variables in another file directly, we usually should not.
+x = 50
+print(x)
+import functions2
+print(functions2.x)
+functions2.x = 78 # such changing of imported module variables can be subtle and implicit leading to inflexible code, bugs, and maintenance nightmare.
+print(functions2.x)
+
+# a more explicit way to do would be to have an accessor function defined in the function2 module that allows to change x.
+x = 50
+print(x)
+from imp import reload
+reload(functions2)
+print(functions2.x)
+functions2.setX(34)
+print(functions2.x)
 
