@@ -103,6 +103,7 @@ print(f.readline())
 
 # global statement
 x = 10
+# global x # this statement will give error.
 # global statement cannot be typed at the module level, i.e in the top level of the module file. It will result in syntaxError.
 print(x)
 
@@ -126,7 +127,7 @@ def func():
     x, v = [6, 7], 'spam'
     print(x, v)
 func()
-print(x, v)
+print(x, v) # [6, 7], 'spam'
 
 y, z = 1, 2
 print(y, z)
@@ -162,16 +163,24 @@ def func2():
 x = 50
 print(x)
 import functions2
-print(functions2.x)
+print(functions2.x) # here we are referencing, which is okay and absolutely normal practice.
+# prints 100
 functions2.x = 78 # such changing of imported module variables can be subtle and implicit leading to inflexible code, bugs, and maintenance nightmare.
-print(functions2.x)
+print(functions2.x) # 78
 
 # a more explicit way to do would be to have an accessor function defined in the function2 module that allows to change x.
 x = 50
 print(x)
 from imp import reload
 reload(functions2)
-print(functions2.x)
+print(functions2.x) # 100
 functions2.setX(34)
-print(functions2.x)
+print(functions2.x) # 34
+
+# other ways to access globals (see functions3.py as reference for below code)
+import functions3
+print(functions3.var) # 98
+functions3.test()
+print(functions3.var) # 102
+"""Go through functions3.py and functions4.py to understand some nuances """
 
