@@ -244,3 +244,43 @@ def f1():
 f1() # prints 88. the function f2's header is run before python steps into f2, which means that in x=x, the right side x is still referring to the x in f1 because the program
 # is still in f1's scope. once program execution enters inside f2, the default argument has already been captured.
 
+# the best thing to do for most code is to avoid using nested defs.
+# the above can be achieved alternatively as below:
+def f1():
+    x = 82 # pass x along instead of nesting
+    f2(x) # forward reference is okay. as long as f1 is called only after f2 has been defined.
+
+def f2(x):
+    print(x)
+
+f1() # f1 function definition has f2 function call. therefore you can call f1, only after f2 has been defined. otherwise you will get a NameError
+# prints 82
+
+
+# nested scopes and lambdas
+# it should be clear by now but just to repeat, lambda is an expression, not a statement
+# its an expression that generates a new function to be called later, much like a def statement.
+# because it is an expression, it can be used in places that def cannot, for example within lists and dictionary literals.
+
+def func():
+    x = 4
+    action = (lambda n: x ** n) # x remembered from enclosing scope
+    return action
+
+x = func()
+print(x(2)) # 4 ** 2 = 16
+print(x(3)) # 4 ** 3 = 64
+
+# before the introduction of enclosing scopes in python, default arguments was the way to achieve the above
+def func():
+    x = 4
+    action = (lambda n, x=x: x ** n) # pass x in manually
+    return action
+
+x = func()
+print(x)
+print(x(2)) # 16
+print(x(3)) # 64
+
+
+
