@@ -184,3 +184,63 @@ functions3.test()
 print(functions3.var) # 102
 """Go through functions3.py and functions4.py to understand some nuances """
 
+# nested functions and scopes
+x = 99 # global scope name
+
+def f1():
+    x = 88 # enclosing def local
+    def f2():
+        print(x) # reference made in nested def
+    f2()
+
+f1() # prints 88: enclosing def local
+print(x) # 99, global scope was never referenced in either f1 or f2
+
+# NOTE that this is all legal python code. because function definition in python is nothing but a statement, it can appear anywhere where any other statement can. 
+# f2() # you cannot call f2 in the module scope/global scope because its a name not known to the module scope. It is a local name in f1 just like
+# any other variable created in f1
+
+# NOTE in a sense, f2 is a temporary function that lives only during the execution of (and is visible only to code in) the enclosing f1.
+
+# this LEGB rule works even if the enclosing function has already returned.
+
+x = 99
+print(x)
+def f1():
+    x = 77
+    def f2():
+        print(x) # remembers x in encloding def scope
+    return f2 # return f2 but dont call it
+
+action = f1() # make, return function
+# now action is nothing but another name for the function f2
+action() # prints 77
+print(x) # 99, x in the global scope was unchanged
+
+# these nested functions that are returned by the enclosing function are called factory functions. because they can remember state of the enclosing function it allows
+# for adjusting the behaviour of the returned function based on the outer function's variable values (ex: user input received)
+def maker(N):
+    def action(X): # make and return action
+        return X ** N # action retains N from enclosing scope
+    return action
+
+f = maker(2) # so N=2
+print(f) # f is a function object
+print(f(3)) # X=3, 3 ** 2
+print(f(4)) # x=4, 4 ** 2
+
+g = maker(3) # N=3
+print(g(3)) # 3 cubed, 3 ** 3
+print(g(4)) # 4 cubed, 4 ** 3
+print(f(5)) # 5 squared. f still remembers the N value it was created on.
+
+# using default arguments for retaining state information
+def f1():
+    x = 88
+    def f2(x=x):
+        print(x)
+    f2()
+
+f1() # prints 88. the function f2's header is run before python steps into f2, which means that in x=x, the right side x is still referring to the x in f1 because the program
+# is still in f1's scope. once program execution enters inside f2, the default argument has already been captured.
+
