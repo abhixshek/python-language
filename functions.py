@@ -283,4 +283,50 @@ print(x(2)) # 16
 print(x(3)) # 64
 
 
+# an exception to the enclosing scope rule is when nested functions are created inside a loop that is in the enclosing function
+# all functions generated within the loop will have the same value - the value the referenced variable had in the last loop iteration.
+def makeActions():
+    acts = []
+    for i in range(5): # tries to remember each i
+        acts.append(lambda x: i ** x) # all remember same last i!!
+    return acts
+
+acts = makeActions()
+print(acts[0])
+# the above does not quite work the way we actually wanted because the enclosing scope variable is looked up when the nested functions are later called
+# and this means they all remember the last iteration value)
+print(acts[0](2)) # 16, but should have been 0 ** 2 = 0
+print(acts[1](2)) # 16, but should have been 1 ** 2 = 1
+print(acts[2](2)) # 16, but should have been 2 ** 2 = 4
+# i.e. we get back 4 ** 2 for all of the functions returned
+
+# this is one case where we still have to rely on default arguments to achieve what we want to achieve.
+# BECAUSE defaults are evaluated when the nested function is created (not when its later called)
+def makeActions():
+    acts = []
+    for i in range(5):
+        acts.append(lambda x, i=i: i ** x) # remmeber current i
+    return acts
+
+acts = makeActions()
+print(acts[0](2)) # 0 ** 2 = 0
+print(acts[1](2)) # 1 ** 2 = 1
+print(acts[2](2)) # 2 ** 2 = 4
+
+# this is fairly obscure case of nested functions, but it can come up in practice, especially in code that generates callback handler functions for a number of widgets in a GUI
+# (eg: button press handlers).
+
+# arbitrary scope nesting
+def f1():
+    x = 99
+    def f2():
+        def f3():
+            print(x) # found in f1's local scope
+        f3()
+    f2()
+
+f1() # prints 99
+
+
+# nonlocal statement
 
