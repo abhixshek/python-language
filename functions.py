@@ -329,4 +329,50 @@ f1() # prints 99
 
 
 # nonlocal statement
+def tester(start):
+    state = start
+    def nested(label):
+        print(label, state) #remembers state in enclosing scope
+    return nested
+
+f = tester(0)
+f('spam')
+f('ham')
+f1 = tester('boy')
+f1('school')
+f1('college')
+
+def tester(start):
+    state = start
+    def nested(label):
+        print(label, state)
+        state += 1 # cannot change enclosing scope names
+    return nested
+
+f = tester(5)
+# f('spam') # running this expression raises error. UnboundLocalError: local variable 'state' referenced before assignment
+# think from python's view. updating the state value above is ambigious. are you trying to create a local variable state which is equal to state (of outer def) + 1
+# or are you updating the value of state created in the outer def (enclosing def scope).
+# this is ambigous and python does not like ambiguity and hence the error.
+
+# nonlocal declaration makes the assignment explicit
+def tester(start):
+    state = start
+    def nested(label):
+        nonlocal state
+        print(label, state)
+        state += 1 # allowed to change it if nonlocal
+    return nested
+
+f = tester(4)
+f('spam') # increments state on each call
+f('ham')
+f('monty')
+
+f1 = tester(35) # each returned function gets its own state. 
+f1('spam')
+f1('hello')
+f('india') # increments state of tester for the function f we created above, not this tester state as stored in f1. 
+# each nested function remembers its distinct state.
+
 
