@@ -375,4 +375,92 @@ f1('hello')
 f('india') # increments state of tester for the function f we created above, not this tester state as stored in f1. 
 # each nested function remembers its distinct state.
 
+# a few boundary cases on nonlocals
+"""
+state = 10
+def tester(start):
+    def nested(label):
+        nonlocal state
+        print('this is a nested def.')
+    return nested
+"""
+
+# the above snippet raises SyntaxError: no binding for nonlocal 'state' found EVEN BEFORE the below function call statements.
+# because recall SyntaxErrors are found before runtime.
+# f = tester(0)
+# f()
+# this is unlike global declaration statement which did not raise any error for any name that did not exist in the global scope
+# ofcourse not that it was any useful, because just declaration statement does not achieve anything. and the moment you referenced that non-existing name in any other statement it would 
+# throw a NameError
+# nonlocal is even more stricter in that it needs the name to be present in the enclosing function when the nonlocal statement is encountered (in the function body)
+# also note that having state = 10 in the module scope or global scope did not help as nonlocal restricts name search only to the enclosing defs. it does not care what names you have created
+# in the global scope / module file.
+
+
+def tester(start):
+    if '5':
+        a = 5
+    else:
+        b = 10
+    def nested(label):
+        nonlocal start, state
+        print('this is a nested def.')
+    state = 100
+    return nested
+
+
+# note that start was never referenced in any statement in the enclosing scope or the nested function body. although this is does not achieve anything material. but the point is no error
+# was raised as long as the name used in nonlocal exists in the enclosing scope
+f = tester(0)
+f('spam') # prints this is a nested def. and works just fine.
+
+def tester(start):
+    if '5':
+        a = 5
+    else:
+        b = 10
+    def nested(label):
+        nonlocal start, state
+        print('this is a nested def. {0}'.format(state))
+    state = 100
+    return nested
+
+f = tester(0)
+f('spam')
+
+def tester(start):
+    def nested(label):
+        global st
+        st = 98 # this creates the name in the module scope
+        print(label, st)
+    return nested
+
+f = tester(0)
+f('spam') # st did not exist before this function call.
+print(st) # 98
+
+# in summary, NOTE Python must resolve nonlocals at function creation time, not function call time.
+
+# state information with function attributes
+def tester(start):
+    def nested(label):
+        print(label, nested.state) # nested is in enclosing scope
+        nested.state += 1 # Change attr, not nested itself
+    nested.state = start # Initial state after func defined
+    return nested
+
+F = tester(0)
+F('spam')
+F('ham')
+print(F.state) # can access state outside functions too
+F('school')
+
+G = tester(42)
+G('boy')
+G('girl')
+F('college') # G has its own state, does not overwrite F's state
+print(F.state) # 4
+print(G.state) # 44
+print(F) # <function tester.<locals>.nested at 0x00000204DECCAB80>
+print(G) # <function tester.<locals>.nested at 0x00000204DECCAC10> 
 
