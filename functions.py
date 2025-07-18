@@ -464,3 +464,43 @@ print(G.state) # 44
 print(F) # <function tester.<locals>.nested at 0x00000204DECCAB80>
 print(G) # <function tester.<locals>.nested at 0x00000204DECCAC10> 
 
+
+## below is some testing of the same concepts on mutable objects like lists.
+def tester(inp1):
+    a = inp1
+    b = [4, 5, 6]
+    def nested(label):
+        print(label, inp1)
+        inp1.append(56)
+        b.append(33)
+        # inp1 = 5 # this statement does not work. but the above append works. i.e. we are able to change mutable objects without using the nonlocal declaration.
+        print(inp1)
+
+    print(a)
+    return nested
+
+f = tester([3, 4])
+f('spam')
+f('ham')
+
+
+### argument passing
+def f(a): # a is assigned to (references) the passed object
+    a = 99 # changes local variable a only
+
+b = 88
+f(b) # a and b both reference 88 initially
+print(b) # b is NOT changed. still 88
+
+def changer(a, b): # arguments assigned references to objects
+    a = 2 # changes local name's value only
+    b[0] = 'spam' # changes shared object in-place
+
+X = 1
+L = [3, 4] # caller (in this case module scope)
+print(X, L)
+changer(X, L) # pass immutable and mutable objects
+print(X, L) # X is unchanged. L is different!
+
+
+
