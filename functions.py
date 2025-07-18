@@ -502,5 +502,66 @@ print(X, L)
 changer(X, L) # pass immutable and mutable objects
 print(X, L) # X is unchanged. L is different!
 
+# the net effect of dealing with mutable function arguments is that they can act as both the input to your function and the output from your function.
+
+# if we dont want the change to the passed in arguments in the caller, pass explicit copies instead.
+X = 1
+L = [3, 4]
+print(X, L)
+changer(X, L[:]) # L[:] is a copy of the list object that L referenced
+print(X, L) # X is unchanged. L is also unchanged.
+
+# or create copy inside the function
+def changer(a, b):
+    b = b[:] # copy input list, so we dont impact caller
+    a = 2
+    b[0] = 'spam' # changes our list copy only
+
+X = 1
+L = [3, 4]
+print(X, L)
+changer(X, L)
+changer(X, L[:])
+print(X, L) # X and L are unchanged in the caller (i.e. in the module scope)
+
+# to really prevent changes, pass immutable objects to force the issue.
+try:
+    changer(X, tuple(L))
+except TypeError:
+    print('Ran into TypeError because you attempted to change an immutable object in the function')
+
+# updating passed in argument names and assigning the results back to them
+def multiple(a, b):
+    a = 2
+    b = [3, 4]
+
+    return a, b # returning the updated objects for each passed in argument
+
+X = 1
+L = [1, 2]
+print(X, L)
+X, L = multiple(X, L) # assign results to caller's names. tuple unpacking is at work here.
+print(X, L)
+
+"""
+def f((a, (b, c))):
+    print('hello')
+
+f((1, ((6, 7)))
+"""
+# !!!!
+# The above function header having a single tuple passed and then internally assigning the elements to a, b, and c
+# using tuple unpacking is NO LONGER SUPPORTED in Python 3.0
+# this also applies to similar tuple unpacking in lambda function argument lists
+# !!!!
+# you need to use explicit tuple unpacking in the function body to achieve the above
+def f(T):
+    (a, (b, c)) = T
+    print(a, b, c)
+
+f((1, (6, 7)))
+f((3, [5, 9]))
+f([6, [3, 2]])
+
 
 
