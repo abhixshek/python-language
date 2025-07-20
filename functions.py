@@ -577,30 +577,61 @@ f([6, 7], 'hello', 23)
 
 # 2. passing values by keywords in the caller
 f(a=3, b='new', c=100)
-f(c=5, a = 78, b = 0) # you can change the order of arguments passed as they are going to be assigned by their names anyway
+f(c=5, a=78, b=0) # you can change the order of arguments passed as they are going to be assigned by their names anyway
 # prints 78 0 5
 
 """
->>> f(a=5, c = 3, b= 100, a= 10)
+>>>f(a=5, c = 3, b= 100, a= 10)
   File "<stdin>", line 1
 SyntaxError: keyword argument repeated
 """
 
 
 """
->>> f(a=5, c = 3, d= 100)
+>>>f(a=5, c = 3, d= 100)
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 TypeError: f() got an unexpected keyword argument 'd'
 """
 
 # mixing positional and keyword arguments in the caller
-f(10, c=  67, b=33) # prints 10 33 67
+f(10, c=67, b=33) # prints 10 33 67
 # positional comes first then keywords in whichever order you like
 
 """
->>> f(a=10, 67, b=33)
+>>>f(a=10, 67, b=33)
   File "<stdin>", line 1
 SyntaxError: positional argument follows keyword argument
 """
+
+# defaults
+def f(a, b=1, c=5): print(a, b, c)
+
+
+f(66, c=20, b=10) # prints 66 10 20
+f(c=90, b=88, a=77) # prints 77 88 90
+
+f(55) # this means a=55 because a is a required argument. and since you did not pass any other argument, b and c will take their defaults
+# prints 55 1 5
+
+f(a=90) # prints 90 1 5
+
+f(33, 44) # a=33, b=44, c takes its default = 5. prints 33 44 5
+
+f(5, 6, 7) # prints 5 6 7
+
+f(77, c=23) # notice positionally a is matched with 77 and then we directly provided c keyword argument skipping b. but this works and b takes its default
+# prints 77 1 23
+
+
+def func(spam, eggs, toast=0, ham=0): # first 2 required
+    print((spam, eggs, toast, ham)) # print a tuple
+
+# as you can tell from the function header, you need to pass AT LEAST 2 arguments.
+func(1, 2) # (1, 2, 0, 0)
+func(1, ham=5, eggs=10) # (1, 10, 0, 5)
+func(eggs=9, spam=22) # (22, 9, 0, 0)
+func(toast=8, eggs=3, spam=2) # (2, 3, 8, 0)
+func(5, 6, 3, 1) # all by position. (5, 6, 3, 1)
+
 
