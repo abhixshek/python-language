@@ -562,6 +562,45 @@ def f(T):
 f((1, (6, 7)))
 f((3, [5, 9]))
 f([6, [3, 2]])
+# notice how different types of sequences are supported in the unpacking. refer to assignments.py file as this is all based on that same assignment model. nothing is new here. 
 
 
+# special argument-matching modes:
+
+# 1. the simple case of positional arguments
+# function header defines 3 arguments/parameters, you pass 3 arguments in the function call
+def f(a, b, c):
+    print(a, b, c)
+
+f(3, 'spam', 5) # a is matched to 3, b is matched to 'spam', c is matched to 5
+f([6, 7], 'hello', 23)
+
+# 2. passing values by keywords in the caller
+f(a=3, b='new', c=100)
+f(c=5, a = 78, b = 0) # you can change the order of arguments passed as they are going to be assigned by their names anyway
+# prints 78 0 5
+
+"""
+>>> f(a=5, c = 3, b= 100, a= 10)
+  File "<stdin>", line 1
+SyntaxError: keyword argument repeated
+"""
+
+
+"""
+>>> f(a=5, c = 3, d= 100)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: f() got an unexpected keyword argument 'd'
+"""
+
+# mixing positional and keyword arguments in the caller
+f(10, c=  67, b=33) # prints 10 33 67
+# positional comes first then keywords in whichever order you like
+
+"""
+>>> f(a=10, 67, b=33)
+  File "<stdin>", line 1
+SyntaxError: positional argument follows keyword argument
+"""
 
