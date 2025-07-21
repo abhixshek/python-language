@@ -635,3 +635,59 @@ func(toast=8, eggs=3, spam=2) # (2, 3, 8, 0)
 func(5, 6, 3, 1) # all by position. (5, 6, 3, 1)
 
 
+##  arbitrary arguments
+
+# *name in the function header:- collects positional arguments into a tuple
+def f(*args):
+    print(args)
+    print(type(args)) # tuple
+
+
+f(5) # args = (5,)
+f(7, 8, 9) # args=(7, 8, 9)
+f([3, 4, 10]) # args=([3, 4, 10],)
+
+f() # args=() # an empty tuple
+
+# **name in the function header:- collects keyword arguments into a dictionary
+def f(**args):
+    print(args)
+    print(type(args))
+
+f(a=5, b=23, c=90, d='spam')
+# even though you have passed multiple keyword arguments they all became keys of a dictionary as key:value pairs. so you cannot directly reference a, b, c, etc in an expression
+# in the function body. you have to use them as keys of the dictionary. they are not local variable names in your function.
+
+f() # empty dictionary is assigned to args, i..e args={}
+f(a=9)
+f(e=[(4, 5), (7, 8)])
+
+def f(a, b, c=5, *pargs, **kargs):
+    print(a, b, c)
+    print(pargs)
+    print(kargs)
+
+f(5, 10)
+# a=5, b=10, c=5, pargs=(), kargs={}
+
+
+"""
+f(3)
+TypeError: f() missing 1 required positional argument: 'b'
+"""
+
+f(3, 4, 23)
+# a=3, b=4, c=23, pargs=(), kargs={}
+
+"""
+f(4, 5, 6, 7, c=22)
+TypeError: f() got multiple values for argument 'c'
+"""
+
+f(4, 5, 6, 7, t=100)
+# a=4, b=5, c=6, pargs=(7,), kargs={'t': 100}
+
+
+
+
+
