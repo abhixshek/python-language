@@ -78,6 +78,10 @@ s = 'abc' + 'def' # string concatenation
 print(s)
 
 print(a * 4)  # string repetition. does not change a ofcourse. remember strings are immmutable type.
+print("john" * 0) # any string multiplied with 0 results in an empty string
+print("spam" * -1) # same with multiplication with a negative number. result is an empty string.
+
+
 
 s = 'hacker'
 print('k' in s) # True

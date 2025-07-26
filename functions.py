@@ -596,7 +596,7 @@ TypeError: f() got an unexpected keyword argument 'd'
 
 # mixing positional and keyword arguments in the caller
 f(10, c=67, b=33) # prints 10 33 67
-# positional comes first then keywords in whichever order you like
+# positional comes first then keywords and they can be in whichever order you like
 
 """
 >>>f(a=10, 67, b=33)
@@ -645,14 +645,14 @@ def f(*args):
 
 f(5) # args = (5,)
 f(7, 8, 9) # args=(7, 8, 9)
-f([3, 4, 10]) # args=([3, 4, 10],)
+f([3, 4, 10]) # args=([3, 4, 10],) . NOTICE the entire list is 1 argument.
 
 f() # args=() # an empty tuple
 
 # **name in the function header:- collects keyword arguments into a dictionary
 def f(**args):
     print(args)
-    print(type(args))
+    print(type(args)) # dict
 
 f(a=5, b=23, c=90, d='spam')
 # even though you have passed multiple keyword arguments they all became keys of a dictionary as key:value pairs. so you cannot directly reference a, b, c, etc in an expression
@@ -687,7 +687,153 @@ TypeError: f() got multiple values for argument 'c'
 f(4, 5, 6, 7, t=100)
 # a=4, b=5, c=6, pargs=(7,), kargs={'t': 100}
 
+# unpacking arguments - in the function call
+# in the function call, using * syntax unpacks a collection of arguments
+
+def f(a, b, c, d): print(a, b, c, d)
+
+f(*(4, 5, 'spam', 3.14))
+
+# similarly, the ** syntax unpacks a dictionary into individual keyword arguments
+d = {'d': 5, 'b': 10, 'c': 'school', 'a': 100}
+f(**d)
+
+# you can combine all these techniques ina single function call
+f(*(1, 4), **{'d': 55, 'c': 32})
+# a = 1, b = 4, c = 32, d = 55
+
+f(44, *[8, 9], **{'d': 56})
+# a=44, b=8, c=9, d=56
+
+f(44, *'sp', **{'d': 56})
+# a=44, b='s', c='p', d=56
+
+"""
+f(44, *[8, 9, 10], **{'d': 56})
+TypeError: f() got multiple values for argument 'd'
+"""
+
+f(5, c=7, *(3, ), **{'d': 10})
+# a=5, b=3, c=7, d=10
+
+f(3, c=7, *(5,), d=99)
+# a=3, b=5, c=7, d=99
+
+f(1, *(2,), c=3, **{'d':4})
+# a=1, b=2, c=3, d=4
+
+# the * syntax in the function call accepts any iterable, not just sequences.
+file = open("file_objects_io/file1.txt")
+def func(a, *args):
+    print(a)
+    print(args)
+
+func(*file) # 1st line of the file is assigned to a, and the rest of the lines are part of the tuple `args`
 
 
+# this */** syntax  (varargs) is useful when you want/need to build up the function arguments at runtime and that are arbitrarily many. 
 
+def tracer(func, *pargs, **kargs): # accept arbitrary arguments
+    print("calling:", func.__name__)
+    return func(*pargs, **kargs) # pass along arbitrary arguments
+
+def add(a, b, c, d):
+    return a + b + c + d
+
+result = tracer(add, 1, 2, c=5, d=10)
+print(result) # 18
+
+# keyword-only arguments
+# arguments that appear after *args in the argument list in the function header are treated as keyword-only args
+# all such arguments must be passed as keyword args in the function call
+def kwonly(a, *b, c):
+    print(a, b, c)
+
+"""
+>>>kwonly(1, 2, 3, 4)
+TypeError: kwonly() missing 1 required keyword-only argument: 'c'
+"""
+
+kwonly(1, 2, 3, c=4)
+# a=1, b=(2, 3), c=4
+
+kwonly(1, c=10)
+# a=1, b=(), c=10
+
+kwonly(c=7, a=4)
+# a=4, c=7, b=()
+
+kwonly(5, 6, c=7)
+# a=5, b=(6,), c=7
+
+def func(a, *, b, c): # NOTICE just the * in the function header. this is a special syntax that tells python that this function accepts no variable-length arguments list
+    print(a, b, c)
+# a can be passed as a positional or a keyword argument, but b and c must be passed as keyword args only.
+# and no other extra positional arguments can be passed
+
+"""
+>>>func(1, 2, 3)
+TypeError: func() takes 1 positional argument but 3 were given
+"""
+
+func(1, c=4, b=2)
+# a=1, b=2, c=4
+
+func(c=10, b=3, a=88)
+# a=88, b=3, c=10
+
+d = dict(c=10, b=5, a=1)
+print(d)
+func(**d)
+# a=1, b=5, c=10
+
+"""
+>>> func(1)
+TypeError: func() missing 2 required keyword-only arguments: 'b' and 'c'
+"""
+
+def func(a, b=3, *, c, d=10): # c and d when passed MUST be passed as keyword arguments. because d has a default, it is optional when passing. but when passed it must be passed as a kw argument.
+# b has a default value. therefore it is optional. when passed it can be passed as positional or keyword argument, as it appears before the * in the header.
+    print(a, b, c, d)
+
+func(1, 2, c=4, d=15)
+# a=1, b=2, c=4, d=15
+
+func(d=5, a= 6, c= 14, b=90)
+# a=6, b=90, c=14, d=5
+
+func(1, b=5, c=8)
+# a=1, b=5, c=8, d=10
+
+func(1, c=44) # c is a required kw argument.
+# a=1, b=3, c=44, d=10
+
+"""
+def func(a=5, b, c, d):
+    print(a, b, c, d)
+
+# this function definition gives a Syntax error because a non-default argument follows a default argument
+# but NOTICE that the previous func definition had def func(a, b=3, *, c, d=10) and it worked because c is a keyword only argument so even if a default arg appears before it
+# it does not cause any ambiguity.
+"""
+
+def func(a, b=5, *, c=3, d, e=9):
+    print(a, b, c, d, e)
+
+# a must be passed as positional/keyword
+# b can be optionally passed as positional/keyword. if not passed it takes the default value
+# no extra positional arguments can be passed as we have used * only, and not *name
+# c, d, and e are all keyword-only arguments.
+# c and e are optional but d must be passed.
+func(66, d=10)
+# a=66, b=5, c=3, d=10, e=9
+
+func(d=8, a=77)
+# a=77, b=5, c=3, d=8, e=9
+
+func(d=8, a=77, b=2, c=2)
+# a=77, b=2, c=2, d=8, e=9
+
+func(40, 70, d=90)
+# a=40, b=70, c=3, d=90, e=9
 
