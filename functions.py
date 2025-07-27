@@ -933,5 +933,56 @@ print(min2([3, 4], [3, 2, 1], [3]))
 print(min3([3, 4], [3, 2, 1], [3]))
 # answer = [3]
 
+print(min1(True, False))
 
+# NOTE that we are not checking for the case when no arguments are passed in either of the 3 function definitions. Because our functions accept all kinds of arguments, there is no
+# sentinel value that we could pass back to designate an error.
+# we let python take care of raising an error and this is exactly what we want.
+
+def minmax(test, *args):
+    res = args[0]
+    for arg in args[1:]:
+        if test(arg, res):
+            res = arg
+    return res
+
+def lessthan(x, y): return x < y
+def greaterthan(x, y): return x > y
+
+print(minmax(lessthan, 4, 2, 1, 6, 5))
+print(minmax(greaterthan, 4, 2, 1, 6, 5))
+
+# python provides min and max built-in functions that are implemented in c for speed.
+print(min([3, 1, 2])) # 1 argument, a list is passed.
+print(min(3, 1, 2)) # multiple arguments passed
+
+
+# generalized set functions (intersect and union) using varargs concept
+def intersect(*args):
+    res = []
+    for x in args[0]: # Scan first sequence
+        for seq in args[1:]: # For all other args
+            if x not in seq: # Item in each one?
+                break # No: break out of loop
+        else:
+            res.append(x) # Yes: add items to end
+    return res
+
+print(intersect([3, 4, 5], [1, 9, 0, 4], (1, 2, 4))) # mixed types
+
+def union(*args):
+    res = []
+    for seq in args: # for all args
+        for item in seq:  # for all items
+            if item not in res:
+                res.append(item) # add new items to result
+    return res
+
+print(union([3, 4, 5], [1, 9, 0, 4], (1, 2, 4)))
+
+s1, s2, s3 = "SPAM", "SCAM", "SLAM"
+print(intersect(s1, s2, s3))
+print(union(s1, s2, s3))
+
+# NOTE that python provides the set object type, which means you dont need to code such functions to perform mathematical intersection or union operations. just use set built-ins.
 
