@@ -837,3 +837,101 @@ func(d=8, a=77, b=2, c=2)
 func(40, 70, d=90)
 # a=40, b=70, c=3, d=90, e=9
 
+# NOTE kw-only args must appear after the * or *name argument and they CANNOT appear after **kargs argument. Also note that there is no `**` without a name syntax for arbitrary keyword arguments.
+"""
+>>>def kwonly(a, **pargs, b, c):
+SyntaxError: invalid syntax
+
+>>>def kwonly(a, **, b, c):
+SyntaxError: invalid syntax
+"""
+
+def func(a, *b, c=4, **d): # c is a kw-only arg
+    print(a, b, c, d)
+    print(type(a))
+    print(type(b))
+    print(type(c))
+    print(type(d))
+
+func(2, 6, 8, 3, 2, c=10, d=100, e=45, f=34) # do not get confused with d here in the function call and the d in the header. they are not the same and in-fact in the function header d is a dictionary
+# that will have one of the keys 'd' because you passed it in the function call.
+
+func(2, 6, 8, 3, 2, r='spam', t='school') # c took the default value of 4. c is a kw-only argument. if you are passing, then must pass it as a keyword argument. if not passing, it will take the default
+# because a default is defined in the function header. had a default not been defined, it would have been MUST for you to pass c in the function call as a keyword argument.
+
+func(1, 2, 3, 4, q=10, w=5, c=99)
+
+def func(a, c=6, *b, **d): # c is NOT a kw-only arg here
+    print(a, b, c, d)
+
+func(2, 3, 4, 5, x=70, y=90)
+# c=3
+
+func(4, 8, 9)
+# a=4, b=(9,), c=8, d={}
+func(33, p=80)
+# a=33, c=6, b=(), d={'p': 80}
+
+
+# NOTE During function calls, i.e., when keyword-only arguments are passed, they can appear before or after **args form. The kw-only argument can be coded either
+# before or after the *args, and may be included in **args.
+
+def f(a, *b, c=6, **d): # c is a kw-only arg
+    print(a, b, c, d)
+
+f(1, *(2, 3), **dict(x=4, y=5)) # c takes the default value of 6
+
+f(1, *(2, 3), **dict(x=4, y=5), c=7) # c=7
+
+f(*(1, 2, 3), **dict(x=4, y=5), c=8) # c=8
+
+f(c=7, *(1, 2, 3), t=9, **dict(x=4, y=5)) # c=7
+# prints 1 (2, 3) 7 {'t': 9, 'x': 4, 'y': 5}
+
+f(c=7, *(1,), **dict(x=4, y=5)) # NOTICE you can pass kw-only args before *args in the call but cannot pass kw-only args before standalone positional arguments.
+# that will give you Syntax error saying positional argument follows keyword argument.
+
+f(c=7, a=90, u=2, i=45)
+
+f(8, 9, 10, **dict(c=15, d=88, e=66))
+
+f(8, 9, 10, **dict(d=88, e=66), c=76)
+
+# suppose you want to code a function that is able to compute the minimum value from an arbitrary set of arguments and an arbitrary set of object data types.
+# the function should work for all kinds of Python object types: numbers, strings, lists, lists of dictionaries, files, and even None.
+
+def min1(*args):
+    res = args[0]
+    for arg in args[1:]:
+        if arg < res:
+            res = arg
+    return res
+
+def min2(first, *rest): # in this definition we can avoid the indexing to separate the first element and the rest that we had to do in min1()
+    for arg in rest:
+        if arg < first:
+            first = arg
+    return first
+
+def min3(*args):
+    tmp = list(args)
+    tmp.sort()
+    return tmp[0]
+
+print(min1(3, 4, 2, 9, 1, 5, 6))
+print(min2(3, 4, 2, 9, 1, 5, 6))
+print(min3(3, 4, 2, 9, 1, 5, 6))
+# all 3 return the same answer = 1
+
+print(min1("bb", "aa"))
+print(min2("bb", "aa"))
+print(min3("bb", "aa"))
+# answer = "aa"
+
+print(min1([3, 4], [3, 2, 1], [3]))
+print(min2([3, 4], [3, 2, 1], [3]))
+print(min3([3, 4], [3, 2, 1], [3]))
+# answer = [3]
+
+
+
