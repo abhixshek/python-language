@@ -986,3 +986,36 @@ print(union(s1, s2, s3))
 
 # NOTE that python provides the set object type, which means you dont need to code such functions to perform mathematical intersection or union operations. just use set built-ins.
 
+
+# emulating python3.0's print function 
+import sys
+def print30(*args, sep=' ', end='\n', file=sys.stdout):
+    output = ''
+    first = True
+    for arg in args:
+        output += ('' if first else sep) + str(arg)
+        first = False
+    file.write(output + end)
+
+print30("hello", "world", [5, 6], {'a': 33})
+print30("hello", "world", [5, 6], {'a': 33}, sep="$$", end="")
+print30() # add a newline
+
+
+
+### advanced function topics
+
+# recursive functions
+def mysum(L):
+    if not L:
+        return 0
+    else:
+        return L[0] + mysum(L[1:])
+
+L = [3, 5, 7, 1, 2]
+print(L)
+print(sum(L)) # using built-in sum which loops through the items of the list
+print(mysum(L)) # same answer. 18
+
+print(mysum([])) # 0
+print(sum([])) # 0
