@@ -1019,3 +1019,47 @@ print(mysum(L)) # same answer. 18
 
 print(mysum([])) # 0
 print(sum([])) # 0
+
+# some alternatives with smaller code real-estate
+def mysum1(L):
+    return 0 if not L else L[0] + mysum1(L[1:]) # using ternary expression
+
+L = [2.5, 3, 7]
+print(mysum1(L)) # 12.5
+
+print(mysum1([])) # 0
+
+def mysum2(L): # assume atleast 1 item and make it work for all types. NOTE that mysum1() was returning zero which means it could only work with numbers
+    return L[0] if len(L) == 1 else L[0] + mysum2(L[1:])
+
+L = [2.5, 3, 7]
+print(mysum2(L)) # 12.5
+
+s = ['spam', 'ham']
+print(mysum2(s)) # 'spamham'
+
+print(mysum2('generative')) # prints generative. recall that string is also a sequence. in this case each character is joined resulting in the same string back
+
+s = ('q', 'w', 'e', 'r', 't', 'y')
+print(mysum2(s)) # 'qwerty'
+
+def mysum3(L): # similar to mysum2 but using extended sequence unpacking
+    front, *rest = L # sequence unpacking requires that L have atleast 1 item. otherwise you will get ValueError
+    return front if not rest else front + mysum3(rest)
+
+L = [2.5, 3, 7]
+print(mysum3(L)) # 12.5
+
+s = ['spam', 'ham']
+print(mysum3(s)) # 'spamham'
+
+print(mysum3('generative'))
+
+s = ('q', 'w', 'e', 'r', 't', 'y')
+print(mysum3(s)) # 'qwerty'
+
+f = open('file_objects_io/file2.txt')
+print(mysum3(f)) # mysum3 and only this works with file objects and other iterators too because in the function body we have not used indexing.
+# NOTE that on the first pass, L is a file object. front is the first line and rest is a list of remaning lines.
+# after that from the second pass on, L is nothing but rest, i.e, L is a list, not a file object anymore.
+
