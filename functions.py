@@ -1063,3 +1063,32 @@ print(mysum3(f)) # mysum3 and only this works with file objects and other iterat
 # NOTE that on the first pass, L is a file object. front is the first line and rest is a list of remaning lines.
 # after that from the second pass on, L is nothing but rest, i.e, L is a list, not a file object anymore.
 
+# recursion can also be indirect, i.e., where a function that calls another function, which calls back to its caller.
+# the net effect is the same, though there are two function calls at each level instead of one.
+def mysum(L):
+    if not L:
+        return 0
+    return nonempty(L) # call a function that calls me
+
+def nonempty(L) :
+    return L[0] + mysum(L[1:]) # indirectly recursive
+
+L = [2.5, 3, 7]
+print(mysum(L)) # 12.5
+
+# recursion in python is rarely used in practice. because the same results can be achieved by using a while or a for loop that runs faster and takes less memmory space.
+# a while loop to do the above summation, notice it also makes the approach more concrete:
+L = [2.5, 3, 7]
+sum = 0
+while L:
+    sum += L[0]
+    L = L[1:]
+print(sum) # 12.5
+
+# a for loop is even better
+L = [2.5, 3, 7]
+sum = 0
+for x in L: sum+= x
+print(sum) # 12.5
+
+
