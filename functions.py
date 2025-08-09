@@ -1092,3 +1092,43 @@ for x in L: sum+= x
 print(sum) # 12.5
 
 
+
+## traversing arbitrarily nested strcutures
+a = [1, [2, [3, 4], 5], 6, [7, 8]]  # Arbitrarily nested sublists
+
+def sumtree(L):
+    tot = 0
+    for x in L: # add each item at this level
+        if isinstance(x, list):
+            tot += sumtree(x) # recur for sublists
+        else:
+            tot += x # add numbers directly
+
+    return tot
+
+print(sumtree(a)) # prints 36
+
+print(sumtree([1, [2, [3, [4, [5]]]]])) # 15 (right heavy) 
+print(sumtree([[[[[1], 2], 3], 4], 5])) # 15 (left heavy)
+
+# recursions real applications are seen in inheritance trees, module import chains, etc
+
+# functions are nothing but objects
+def echo(message):
+    print(message)
+
+echo('Direct call') # Call object through original name
+
+x = echo # Now x references the function too
+x('Indirect call!') # Call object through name by adding ()
+
+# function objects maybe passed around in your program to other functions just like any other object
+def indirect_call(func, arg):
+    func(arg) # Call the passed-in object by adding ()
+
+indirect_call(echo, 'function object was passed as argument')
+
+schedule = [(echo, 'call 1!'), (echo, 'call 2!')] # functions as elements in a container
+for func, arg in schedule:
+    func(arg)
+
