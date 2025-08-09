@@ -1132,3 +1132,67 @@ schedule = [(echo, 'call 1!'), (echo, 'call 2!')] # functions as elements in a c
 for func, arg in schedule:
     func(arg)
 
+def make(label):
+    def echo(message):
+        print(label + ':' + message)
+
+    return echo
+
+F = make('spam') # label in enclosing scope is retained
+F('Ham!') # call the function that `make` returned
+
+F('eggs')
+
+# function inspection
+def func(a):
+    b = 'spam'
+    return b * a
+
+print(func(5))
+# but the call expression (using parenthesis after function name) is just 1 of the operations defined to work on function objects.
+print(func.__name__)
+print(dir(func))
+
+f = func
+print(f.__name__) # the __name__ attribute still prints func, the original function object's name
+
+print(func.__code__)
+print(dir(func.__code__))
+
+print(func.__code__.co_varnames) # ('a', 'b') - names of local variables of func
+print(func.__code__.co_argcount) # 1
+
+# tool writers can make use of such information to manage functions
+
+# assigning user-defined attributes to a function 
+print(func)
+func.count = 0
+print(func.count)
+func.count += 1
+print(func.count)
+
+func.session = True
+print(func.session)
+
+print(dir(func)) # we find count and session as attributes
+
+
+
+## Function annotations
+# function annotations are coded in def header lines, as arbitrary expressions associated with arguments and return values.
+
+# nonannotated function:
+def func(a, b, c):
+    return a + b + c
+
+print(func(1, 2, 4))
+print(func.__annotations__)
+
+# annotated function header
+def func(a: 'spam', b: (1, 10), c: float) -> int:
+    return a + b + c
+
+print(func(1, 2, 4))
+
+print(func.__annotations__)
+
