@@ -1196,3 +1196,62 @@ print(func(1, 2, 4))
 
 print(func.__annotations__)
 
+def func(a: 'spam', b, c: int): # annotations are optional, you may annotate only some of arguments, or all or none. its all optional.
+    return a + b + c
+
+print(func.__annotations__)
+
+
+for arg in func.__annotations__:
+    print(arg, "=>", func.__annotations__[arg])
+
+# annotations are coded after arguments but before = sign of default arguments
+def func(a: 'spam' = 4, b: (1, 10) = 5, c: float = 6) -> int:
+    return a + b + c
+
+print(func(1, 6, 7)) # 14
+print(func()) # all defaults used. prints 15
+print(func(3, 4))
+
+print(func(5, c=10)) # 20
+
+print(func.__annotations__['b'] == (1, 10)) # notice the annotation expression is stored as it is in the dictionary, not a str version of it.
+
+# NOTE blank spaces between components is optional.
+def func(a:'spam'=4)->int: print(a)
+func(6)
+
+print(type(func))
+
+
+## lambda expressions (anonymous functions)
+t = lambda x: x** 2
+print(t) # function lambda at 0x...
+print(type(t)) # class function
+print(dir(t))
+print(t.__name__) # __name__ attribute is `lambda`, not 't'
+print(t.__code__.co_varnames) # ('x', )
+print(t.__code__.co_argcount) # 1
+
+print(t(5)) # 25
+
+# defaults work on lambda arguments just like in a def
+x = (lambda a="fee", b="bee", c="lee": a + b + c) # the outer parentheses are not required or really doing anything here, other than making the lambda expression easier to read
+print(x())
+print(x("zee"))
+
+# lambda's follow the same local scope as defs and can access names following the same LEGB rule
+def ruler(emp):
+    action = lambda x: emp + ' ' + x # emp from local scope
+
+    return action
+
+a = ruler('sir')
+print(a('Robert'))
+print(a('William'))
+
+b = ruler('Maam')
+print(b('Eliza'))
+print(b('Riya'))
+
+
