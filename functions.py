@@ -1306,3 +1306,17 @@ print(type(f)) # a lambda function object
 print(f(5)) # (25, 50)
 
 
+# nested lambdas and scopes
+def action(x):
+    return lambda y: x + y # make and return function, remember x
+
+act = action(30)
+print(act(5)) # 30 + 5 = 35
+
+action = (lambda x: (lambda y: x + y)) # both inner and outer parenthesis are just for readability. they are not required and are not affecting the evaluation in any way.
+act = action(50)
+print(act(3)) # 50 + 3 = 53
+
+print(((lambda x: (lambda y: x + y))(99))(4))
+
+
