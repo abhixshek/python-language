@@ -1255,3 +1255,54 @@ print(b('Eliza'))
 print(b('Riya'))
 
 
+# jump tables - lists or dictionaries of actions to be performed on demand
+L = [
+        lambda x: x ** 2, # inline function definition
+        lambda x: x ** 3,
+        lambda x: x ** 4] # a list of 3 callable functions
+
+for f in L:
+    print(f(2))
+
+print(L[0](3)) # 9
+
+# this was much quicker to code compared to writing complete def statements and then creating a list of those created function names.
+
+key = 'got'
+result = {'already': (lambda: 2 + 2), # notice we can have lambda expression with no arguments as well just like we can have a function with no arguments
+          'got': (lambda: 2 * 4), 
+          'one': (lambda: 2 ** 6)}[key]()
+print(result) # 8
+
+f = lambda x: print(x)
+f('hello')
+
+# selection logic inside a lambda using if else ternary expression
+lower = lambda x, y: x if x < y else y
+print(lower(5, 3)) # 3
+print(lower(2.5, 6)) # 2.5
+print(lower('aBc', 'ab')) # aBc
+
+# you can even perform loops within a lambda, using things like map(), list comprehensions. but NOTE dont go too far or you risk making your code unreadable
+f = lambda x: list(map(len, x))
+result = f(["hello world", "spam is not ham", "AI is not coming soon"])
+print(result)
+
+f = lambda x: [i ** 2 for i in x]
+print(f([4, 6, 3]))
+
+
+# lambda expects a single expression only
+x = 4
+f = lambda x: x ** 2, x * 10
+print(type(f)) # f is a tuple where 1st item is a lambda function that returns the square of a given input and the 2nd item is result of evaluating x * 10, which is 40.
+# NOTE the x in the lambda expression is a function argument name (an x local to the lambda function) and it is not referencing the x from outside which has a value of 4
+# now because lambda only expects a single expression, x ** 2 gets evaluated as part of the lambda expression and not the tuple (x ** 2, x * 10)
+print(f) # (lambda function, 40)
+print(f[0](5)) # 25
+# if you want to return a tuple object from the lambda function you MUST provide explicit parenthesis here
+f = lambda x: (x ** 2, x * 10)
+print(type(f)) # a lambda function object
+print(f(5)) # (25, 50)
+
+
