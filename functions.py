@@ -1313,10 +1313,98 @@ def action(x):
 act = action(30)
 print(act(5)) # 30 + 5 = 35
 
+# same thing as above can be achieved by doing the below:
 action = (lambda x: (lambda y: x + y)) # both inner and outer parenthesis are just for readability. they are not required and are not affecting the evaluation in any way.
 act = action(50)
 print(act(3)) # 50 + 3 = 53
 
 print(((lambda x: (lambda y: x + y))(99))(4))
 
+
+# map function - apply a function/operation to each item in of a sequence
+a = [1, 5, 7, 8]
+print(a)
+updated = []
+for i in a:
+    updated.append(i + 10) # add 10 to each item
+print(updated)
+
+# achieving the above using map:
+def inc(x): return x + 10 # the function to be applied
+
+result = list(map(inc, a))
+print(result)
+
+# this is also where lambda is commonly used
+result = list(map(lambda x: x ** 2, a)) # square each element of the sequence
+print(result)
+
+# what about cases where your function expects N arguments? ex: "pow(base, power)"
+print(pow(2, 4)) # 16
+
+# in that case, pass N sequences to map()
+result = list(map(pow, [2, 3, 5], [4, 3, 4]))
+print(result) # 2 ** 4, 3 ** 3, 5 ** 4
+
+# map stops the iteration when the shortest sequence is exhausted
+result = list(map(pow, [2, 3, 5], [4, 3]))
+print(result) # 5 in the first sequence was not even iterated through because the 2nd sequence in two iterations
+
+
+# filter and reduce
+# filter() is used to filter items from an iterable based on a test function
+a = list(range(-5, 5))
+print(a)
+# lets say we want to pick out items from a sequence that are greater than 0
+result = list(filter(lambda x: x > 0, range(-5, 5)))
+print(result)
+
+# a for loop equivalent of the above would be:
+res = []
+for item in range(-5, 5):
+    if item > 0:
+        res.append(item)
+print(res)
+
+
+# reduce() - accepts an iterator to process, but does not return an iterator, instead it returns a single result
+from functools import reduce
+
+result = reduce(lambda x, y: x + y, [3, 5, 7, 8]) # compute the sum of items in the list
+print(result) # 23
+
+result = reduce(lambda x, y: x * y, [2, 3, 5, 5]) # product of all items in the list
+print(result) # 150
+# NOTE at each step, reduce passes the current sum/product, along with the next item from the list, to the lambda function.
+# by default, the first item in the sequence initializes the starting value
+# the for loop equivalent of the above where you are trying to add all the items would be:
+L = [3, 5, 7, 8]
+res = L[0]
+for i in L[1:]:
+    res += i
+print(res)
+
+r = reduce(lambda x, y: x + y, [4])
+print(r) # 4, the first item is returned in a sequence with just 1 element
+
+r = reduce(lambda x, y: x + y, [], -22) # to handle the case of empty sequence, pass a default value as the third argument to reduce()
+print(r) # -22
+
+
+# my own user-defined implementation of reduce built-in:
+def myreduce(func, sequence):
+    result = sequence[0]
+    for x in sequence[1:]:
+        result = func(result, x)
+
+    return result
+
+r = myreduce(lambda x, y: x * y, [2, 3, 5, 5])
+print(r) # 150
+
+# to implement certain operations as functions, check out the operator module
+import operator
+r = reduce(operator.add, [2, 4, 5])
+print(r) # 11
+# NOTE reduce only works with functions that expect 2 arguments.
 
