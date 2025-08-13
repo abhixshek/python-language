@@ -1408,3 +1408,26 @@ r = reduce(operator.add, [2, 4, 5])
 print(r) # 11
 # NOTE reduce only works with functions that expect 2 arguments.
 
+
+
+## comprehensions - revisited
+res = [x for x in range(10) if x % 2 == 0] # get all even numbers 
+print(res)
+res = list(filter((lambda x: x % 2 == 0), range(10))) # same thing using filter()
+print(res)
+
+# same thing using a for loop
+res = []
+for x in range(10):
+    if x % 2 == 0:
+        res.append(x)
+print(res)
+
+# as you can see filter required a bit more typing than list comprehension. Further more, if we are to also evaluate something for each of the even numbers then list comprehension really shines
+res = [x ** 2 for x in range(10) if x % 2 == 0] # get the squares of all even numbers from this range
+print(res)
+
+# this cannot be done with just using a filter or a map. we need to combine both filter and map to achieve this and it gets overly complicated to read as well.
+res = list(map((lambda x: x ** 2), filter((lambda x: x % 2 == 0), range(10))))
+print(res)
+
