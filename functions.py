@@ -1411,7 +1411,7 @@ print(r) # 11
 
 
 ## comprehensions - revisited
-res = [x for x in range(10) if x % 2 == 0] # get all even numbers 
+res = [x for x in range(10) if x % 2 == 0] # get all even numbers. zero is an even number too. any integer that leaves remainder 0 on division by 2 is an even no. 
 print(res)
 res = list(filter((lambda x: x % 2 == 0), range(10))) # same thing using filter()
 print(res)
@@ -1429,5 +1429,82 @@ print(res)
 
 # this cannot be done with just using a filter or a map. we need to combine both filter and map to achieve this and it gets overly complicated to read as well.
 res = list(map((lambda x: x ** 2), filter((lambda x: x % 2 == 0), range(10))))
+print(res)
+
+# infact, list comprehensions can be more general still. There can be any number of nested for loops in a comprehension, each may have an optional if test
+# such nested for loops in comprehensions work just like the usual nested for loops
+res = [x + y for x in [3, 4, 5] for y in [7, 8, 9]]
+print(res)
+
+# the above is equivalent to the more verbose:
+res = []
+for x in [3, 4, 5]:
+    for y in [7, 8, 9]:
+        res.append(x + y)
+print(res)
+
+# NOTE, list comprehensions CREATE lists, but they can iterate through any iterable/sequence. 
+res = [x + y for x in 'abc' for y in 'xyz']
+print(res) # ['ax', 'ay', 'az', 'bx', 'by', 'bz', 'cx', 'cy', 'cz']
+
+# write code to create permutations of even whole number till 10 with odd numbers till 10 as tuples
+res = [(x, y) for x in range(10) if x % 2 == 0 for y in range(10) if y % 2 != 0]
+print(res)
+
+# the equivalent for loop based code for the above would be:
+res = []
+for x in range(10):
+    if x % 2 == 0:
+        for y in range(10):
+            if y % 2 != 0:
+                res.append((x, y))
+print(res)
+
+
+# matrices and list comprehension
+M = [[1, 2, 3],
+     [4, 5, 6],
+     [7, 8, 9]
+     ]
+
+N = [[2, 2, 2],
+     [3, 3, 3],
+     [4, 4, 4]]
+
+print(M[1][1]) # 5
+print(N[2][0]) # 4
+
+
+# to get the 2nd column of M
+print([row[1] for row in M])
+print([M[rn][1] for rn in (0, 1, 2)]) # same as above but using row numbers to index
+
+# get the diagonal elements of a matrix - a00, a11, a22, etc
+res = [M[i][i] for i in range(len(M))]
+print(res) # [1, 5, 9]
+
+# multiply 2D matrices element-wise 
+res = [M[row][col] * N[row][col] for row in range(3) for col in range(3)]
+print(res)
+
+# create the above keeping the 3x3 matrix structure
+res = [[M[row][col] * N[row][col] for col in range(3)] for row in range(3)]
+print(res)
+
+# a complete for loop based code to do the above:
+res = []
+for row in range(3):
+    tmp = []
+    for col in range(3):
+        tmp.append(M[row][col] * N[row][col])
+    res.append(tmp)
+print(res)
+
+listoftuples = [('bob', 35, 'engineer'), ('john', 40, 'doc')] # this is how you get results from SQL database API of python. a list of tuples(records)
+# extract the age of all employees
+res = [age for name, age, job in listoftuples]
+print(res)
+
+res = list(map(lambda x: x[1], listoftuples))
 print(res)
 
