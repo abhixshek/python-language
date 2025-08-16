@@ -1508,3 +1508,25 @@ print(res)
 res = list(map(lambda x: x[1], listoftuples))
 print(res)
 
+
+
+## Generator functions - same as a normal def statement, but has a yield statement instead of a return
+def gensquares(N):
+    for num in range(N):
+        yield num ** 2 # resume here later
+
+for i in gensquares(6):
+    print(i, end=', ') # print last yielded value
+
+print() # blank line
+f = gensquares(3)
+print(type(f)) # <class 'generator'>
+print(f.__next__())
+print(next(f))
+print(next(f))
+# print(next(f)) # StopIteration
+
+
+
+
+
