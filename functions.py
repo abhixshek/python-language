@@ -1520,13 +1520,59 @@ for i in gensquares(6):
 
 print() # blank line
 f = gensquares(3)
+print(f) # function function object. NOTICE how this is different from a normal def function which always returned a value that f would then be assigned to.
 print(type(f)) # <class 'generator'>
-print(f.__next__())
-print(next(f))
-print(next(f))
+print(f.__next__()) # 0
+print(next(f)) # 1
+print(next(f)) # 4
 # print(next(f)) # StopIteration
 
+# instead of generating we could built out the entire list of squares as normal
+def buildsquares(N):
+    res = []
+    for i in range(N): res.append(i ** 2)
+    return res
 
+for x in buildsquares(6):
+    print(x, end=', ')
 
+print()
+
+# for that matter, we could have used list comprehension or a map function as well to achieve the above.
+for x in [i ** 2 for i in range(6)]:
+    print(x, end=', ')
+
+print()
+
+for x in map(lambda x: x ** 2, range(6)):
+    print(x, end=', ')
+
+print()
+
+# NOTE, however, generators can be better both in terms of memory usage and performance.
+
+def gen():
+    for i in range(2, 10):
+        X = yield i
+        print('X is', X)
+
+G = gen()
+r = next(G) # MUST call next() first, to start generator
+print(r) # 2. this is coming from yield 2. after the yield expression is run, the yield value/expression is returned back to the caller and therefore r gets its value 2. 
+# on the next `next()` call only will `X` inside the function be assigned a value, i.e the assignment operation takes place as the generator function continues its execution
+r = next(G) # prints X is None. then moves to the next iteration of the for loop and yields 3 which the caller, in this case the name r gets its value.
+print(r) # 3
+r = G.__next__() # prints X is None then assigns 4 from the yield of the next iteration
+print(r) # 4
+r = G.send(77) # the value you send, replaces the yield expression. and therefore X = 77 inside the function now.
+# therefore the print statement prints X is 77 and moves to the next yield encounter/iteration.
+print(r) # 5
+r = G.send(44) # X is 44
+print(r) # 6
+r = next(G) # X is None. # NOTE next() and G.__next__() send None
+print(r) # 7
+
+# The send method can be used, for example, to code a generator
+# that its caller can terminate by sending a termination code, or redirect by passing a new position. 
 
 
