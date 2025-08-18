@@ -1079,17 +1079,17 @@ print(mysum(L)) # 12.5
 # recursion in python is rarely used in practice. because the same results can be achieved by using a while or a for loop that runs faster and takes less memmory space.
 # a while loop to do the above summation, notice it also makes the approach more concrete:
 L = [2.5, 3, 7]
-sum = 0
+tot_sum = 0
 while L:
-    sum += L[0]
+    tot_sum += L[0]
     L = L[1:]
-print(sum) # 12.5
+print(tot_sum) # 12.5
 
 # a for loop is even better
 L = [2.5, 3, 7]
-sum = 0
-for x in L: sum+= x
-print(sum) # 12.5
+tot_sum = 0
+for x in L: tot_sum+= x
+print(tot_sum) # 12.5
 
 
 
@@ -1575,4 +1575,52 @@ print(r) # 7
 # The send method can be used, for example, to code a generator
 # that its caller can terminate by sending a termination code, or redirect by passing a new position. 
 
+
+## Generator expressions
+res = [x ** 2 for x in range(4)] # built a list
+print(res) # [0, 1, 4, 9]
+
+res = (x ** 2 for x in range(4))
+print(res) # generator object genexpr at 0x0523452
+# generator object supports the iteration protocol and therefore can generate results one at a time
+
+res = list((x ** 2 for x in range(4))) # force the generator to return all the results at once
+print(res)
+
+G = (x ** 2 for x in range(4))
+print(G)
+print(G.__next__()) # 0
+print(next(G))# 1
+print(next(G)) # 4
+print(G.__next__()) # 9
+# print(next(G)) # StopIteration error
+
+# ofcourse, in practice this way of using next() to iterate through the results is not used. we use the generator expression in a for loop and it handles iterations for us automatically
+G = (x ** 2 for x in range(4))
+for item in G:
+    print(item, end=', ')
+
+print()
+
+# parenthesis are not required around the generator expression if they are the sole item enclosed in another parenthesis, for example those of a function call.
+res = sum(x ** 2 for x in range(4)) # without parenthesis
+print(res) # 14
+res = sum((x ** 2 for x in range(4))) # with parenthesis
+print(res) # 14
+
+res = sorted(x ** 2 for x in range(4))
+print(res)
+
+res = sorted((x ** 2 for x in range(4)), reverse=True) # parenthesis are REQUIRED here, because you have passed a 2nd argument
+print(res)
+
+import math
+res = list(map(math.sqrt, (x ** 2 for x in range(4))))
+print(res)
+
+# generator expressions are primarily a memory-space optimization and are best to be used when dealing with large result sets as they can be slower in practice.
+
+
+
+## see function_gotchas1.py, function_gotchas2.py, etc
 
