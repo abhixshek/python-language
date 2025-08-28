@@ -1620,6 +1620,73 @@ print(res)
 
 # generator expressions are primarily a memory-space optimization and are best to be used when dealing with large result sets as they can be slower in practice.
 
+# the same operation can often be coded as either a generator function or a generator expression
+G = (c * 4 for c in 'SPAM') # gen expr.
+print(G)
+print(list(G))
+
+# the same can be done as below:
+def timesfour(S): # generator function allows to code more logic using multiline statements, etc
+    for c in S:
+        yield c * 4
+G = timesfour('SPAM')
+print(G)
+print(list(G))
+
+# both generator expressions and generator functions support automatic and manual iteration. list(G) above was automatic
+# doing manually:
+I = iter(G)
+try:
+    print(next(I))
+except StopIteration as e: # exception is run in this code
+    print('The generator function G has been exhausted in the list() call above. We cannot iterate further, or start fresh without creating a new generator object')
+
+G = (c * 4 for c in 'SPAM')
+I = iter(G)
+print(next(I))
+print(next(I))
+
+
+G = timesfour('SPAM')
+I = iter(G)
+print(next(I))
+print(next(I))
+
+# THE REASON WE HAD TO CREATE NEW GENERATOR OBJECTS TO ITERATE OVER ONCE WE HAD ALREADY ITERATED ONCE IS BECAUSE GENERATORS ARE ONE-SHOT ITERATORS
+# i.e., generators are single iterator objects
+G = (c * 4 for c in 'SPAM')
+print(iter(G) is G) # True, generator objects are their own iterators. infact you dont even need to do iter(G)
+I1 = iter(G)
+print(next(I1))
+print(next(I1))
+I2 = iter(G)
+print(next(I2)) # second iterator at same position as I1
+print(next(I2))
+print(I1 is I2) # True
+
+G = (c * 4 for c in 'SPAM') # new generator object to start again. NOTE that generator functions work the same way.
+print(next(G))
+
+# this behaviour of generators is different from some built-in types which support multiple iterators
+L = [3, 6, 2, 1]
+print(L)
+I1, I2 = iter(L), iter(L)
+print(I1 is I2) # False
+print(I1 is L) # False
+print(next(I1)) # 3
+print(next(I1)) # 6
+print(next(I2)) # 3. starting from beginning, not continuing from where I1 is.
+
+del L[2:]
+print(L) # L's updates reflect directly in the iterators
+L[1] = 98
+try:
+    print(next(I1))
+except StopIteration as e:
+    print('StopIteration exception is raised because L was updated and is now exhuasted for I1')
+
+print(next(I2)) # I2 still can process one more iteration because L contains 2 elements. But notice that it gives the updated value of L[1], not
+# the L[1] which was there when we ran I2 = iter(L). prints 98
 
 
 ## see function_gotchas1.py, function_gotchas2.py, etc
