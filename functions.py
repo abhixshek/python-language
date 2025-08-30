@@ -1751,10 +1751,22 @@ print(result)
 result = list(mymap(abs, [-5, -2.4534, -.99, 3., 6]))
 print(result)
 
+# we used the built-in zip() which handled different sized sequences by truncating to the shortest. 
+# lets implement zip() also ourselves
+def myzip(*seqs):
+    seqs = [list(S) for S in seqs]
+    res = []
+    while all(seqs):
+        res.append(tuple(S.pop(0) for S in seqs))
+    return res
 
-    
+res = myzip([2, 5, 3], [2, 4, 3, 3, 2, 9])
+print(res) # [(2, 2), (5, 4), (3, 3)]
 
-
+m = map(lambda x: x ** 2, [3, 4])
+res = myzip('xyz', [4, 7, 8, 3], m) # m is an iterable here. notice how arguments are of different types. this is all handled because of list() call in the function definition 1st line
+# on each S in seqs
+print(res)
 
 
 
