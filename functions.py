@@ -1689,5 +1689,78 @@ print(next(I2)) # I2 still can process one more iteration because L contains 2 e
 # the L[1] which was there when we ran I2 = iter(L). prints 98
 
 
+# emulating zip and map
+s1 = 'abc'
+s2 = 'xyz123'
+z = zip(s1, s2) # pairs items from itrerables
+print(z)
+print(type(z))
+print(iter(z) is z) # True, means zip() is an iterator object itself
+print(next(z)) # ('a', 'x')
+print(list(z)) # [('b', 'y'), ('c', 'z')]
+# notice the results of z truncated at the shortest sequence among s1, s2. you can pass n number of sequences as arguments
+
+result = list(zip(s1)) # passed just a single sequence, creates a 1-ary tuples
+print(result)
+
+# similarly map() can take N-sequences for an N-input function and truncates at the shortest sequence
+result = list(map(abs, [-5, -1, 0, 9, -1.34]))
+print(result)
+
+result = list(map(pow, [2, 5, 3], [2, 4, 3, 3, 2, 9]))
+print(result) # result is truncated based on shortest sequence
+
+# coding our own map and handling multiple sequences as well just like the built in
+def mymap(func, *seqs):
+    res = []
+    for args in zip(*seqs):
+        res.append(func(*args))
+    return res
+
+result = mymap(pow, [2, 5, 3], [2, 4, 3, 3, 2, 9])
+print(result)
+result = mymap(abs, [-5, -2.4534, -.99, 3., 6])
+print(result)
+
+def mymap(func, *seqs):
+    return [func(*args) for args in zip(*seqs)] # much shorter and might run after that the above full for loop statement based
+
+result = mymap(pow, [2, 5, 3], [2, 4, 3, 3, 2, 9])
+print(result)
+result = mymap(abs, [-5, -2.4534, -.99, 3., 6])
+print(result)
+
+# NOTE, BUT both of the above approaches built the result list at once though, which can waste memory for larger lists
+# and since we now know about generators, this can be easily dealt with either using generator function or generator expression
+def mymap(func, *seqs):
+    for args in zip(*seqs):
+        yield func(*args)
+
+print("using generator function")
+result = list(mymap(pow, [2, 5, 3], [2, 4, 3, 3, 2, 9])) # list() to force results all at once
+print(result)
+result = list(mymap(abs, [-5, -2.4534, -.99, 3., 6]))
+print(result)
+
+def mymap(func, *seqs):
+    return (func(*args) for args in zip(*seqs)) # returning a generator expression object
+
+print("using generator expressions")
+result = list(mymap(pow, [2, 5, 3], [2, 4, 3, 3, 2, 9])) # list() to force results all at once
+print(result)
+result = list(mymap(abs, [-5, -2.4534, -.99, 3., 6]))
+print(result)
+
+
+    
+
+
+
+
+
+
+
+
+
 ## see function_gotchas1.py, function_gotchas2.py, etc
 
