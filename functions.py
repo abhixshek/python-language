@@ -1774,5 +1774,40 @@ print(res)
 
 
 
+
+## comprehensions summary
+res = {x * x for x in range(10) if x % 2 == 0} # set comprehension
+print(res)
+
+res = set(x * x for x in range(10) if x % 2 == 0) # same as above but using generator expression
+print(res)
+
+keys = range(0, 10, 2)
+vals = [0, 4, 16, 36, 64]
+res = {key: val for key, val in zip(keys, vals)} # dictionary comprehension
+print(res)
+
+res = dict(zip(keys, vals)) # same as above
+print(res)
+
+res = dict((x[0], x[1]) for x in zip(keys, vals))
+print(res)
+
+# as you can see, you can use the type name, for set and dict along with a generator expression and achieve exactly what the set comprehension and dictionary comprehension syntaxes achieve
+# because both set() and dict() accept any iterable
+
+# nested loops work too for both set and dictionary comprehensions along with if expressions to filter results
+res = [x + y for x in [3, 4, 5] for y in [7, 8, 9]] # lists keep duplicates
+print(res)
+res = {x + y for x in [3, 4, 5] for y in [7, 8, 9]} # but sets do not
+print(res)
+res = {x: y for x in [3, 4, 5] for y in [7, 8, 9]} # neither do dict keys
+print(res)
+
+
+## Timing iteration alternatives
+
+
+
 ## see function_gotchas1.py, function_gotchas2.py, etc
 
