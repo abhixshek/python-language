@@ -1768,7 +1768,66 @@ res = myzip('xyz', [4, 7, 8, 3], m) # m is an iterable here. notice how argument
 # on each S in seqs
 print(res)
 
+def myzipPad(*seqs, pad=None):
+    seqs = [list(S) for S in seqs]
+    res = []
+    while any(seqs):
+        res.append(tuple(S.pop(0) if S else pad for S in seqs))
+    return res
 
+res = myzipPad([2, 5, 3], [2, 4, 3, 3, 2, 9])
+print(res)
+
+S1, S2 = 'abc', 'xyz123'
+res = myzipPad(S1, S2, pad=99)
+print(res)
+
+# the above versions built a list and return the final result, but we could have used a yield to generate results one at a time just as easily
+def myzip(*seqs):
+    seqs = [list(S) for S in seqs]
+    while all(seqs):
+        yield tuple(S.pop(0) for S in seqs)
+
+S1, S2 = 'abc', 'xyz123'
+res = list(myzip(S1, S2))
+print(res)
+
+def myzipPad(*seqs, pad=None):
+    seqs = [list(S) for S in seqs]
+    while any(seqs):
+        yield tuple(S.pop(0) if S else pad for S in seqs)    
+
+res = list(myzipPad(S1, S2))
+print(res)
+res = list(myzipPad(S1, S2, pad=99))
+print(res)
+
+# another alternative implementation of myzip and myzipPad using length of sequences
+print("another alternative implementation of myzip and myzipPad using length of sequences")
+def myzip(*seqs):
+    minlen = min(len(S) for S in seqs)
+    return [tuple(S[i] for S in seqs) for i in range(minlen)]
+
+S1, S2 = 'abc', 'xyz123'
+res = list(myzip(S1, S2))
+print(res)
+
+def myzipPad(*seqs, pad=None):
+    maxlen = max(len(S) for S in seqs)
+    return [tuple(S[i] if len(S) > i else pad for S in seqs) for i in range(maxlen)]
+
+res = list(myzipPad(S1, S2))
+print(res)
+res = list(myzipPad(S1, S2, pad=99))
+print(res)
+# Because these use len and indexing, they assume that arguments are sequences or similar, not arbitrary iterables. 
+
+# again, to turn these functions into generators themselves, we can use generator expressions instead of list comprehension
+def myzip(*seqs):
+    minlen = min(len(S) for S in seqs)
+    return (tuple(S[i] for S in seqs) for i in range(minlen))
+
+print(list(myzip(S1, S2))) # list() is required here to build the results at once
 
 
 
