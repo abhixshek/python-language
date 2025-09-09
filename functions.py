@@ -1830,8 +1830,17 @@ def myzip(*seqs):
 print(list(myzip(S1, S2))) # list() is required here to build the results at once
 
 
+""" Why You Will Care: One-Shot Iterations section in the book - DID NOT UNDERSTAND. for me its throwing Stopiteration error but book says thats handled.
+def myzip(*args):
+    iters = list(map(iter, args))
+    while iters:
+        res = [next(i) for i in iters]
+        yield tuple(res)
 
-
+S1, S2 = 'abc', 'xyz123'
+res = list(myzip(S1, S2))
+print(res)
+"""
 
 
 ## comprehensions summary
@@ -1865,6 +1874,18 @@ print(res)
 
 
 ## Timing iteration alternatives
+import time
+reps = 1000
+repslist = range(reps) # this is contructed outside the timing loop, so that its contruction time is not added. In python 3, range() is an iterator so this step isnt required, but doesnt hurt.
+
+def timer(func, *pargs, **kargs):
+    start = time.time()
+    for i in repslist():
+        res = func(*pargs, **kargs)
+    elapsed = time.time() - start
+    return (elapsed, res)
+
+
 
 
 
