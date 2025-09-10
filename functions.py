@@ -1874,6 +1874,7 @@ print(res)
 
 
 ## Timing iteration alternatives
+
 """
 import time
 reps = 1000
@@ -1881,18 +1882,95 @@ repslist = range(reps) # this is contructed outside the timing loop, so that its
 
 def timer(func, *pargs, **kargs):
     start = time.time()
-    for i in repslist():
+    for i in repslist:
         res = func(*pargs, **kargs)
     elapsed = time.time() - start
     return (elapsed, res)
 """
+
 # have defined the above function in functions_timer.py file
+
+import functions_timer, sys
 
 reps = 10000
 repslist = range(reps)
 
+def forLoop():
+    res = []
+    for x in repslist:
+        res.append(abs(x))
+    return res
+
+def listComp():
+    return [abs(x) for x in repslist]
+
+def mapCall():
+    return list(map(abs, repslist))
+
+def genExpr():
+    return list(abs(x) for x in repslist)
+
+def genFunc():
+    def gen():
+        for x in repslist:
+            yield abs(x)
+    return list(gen())
 
 
+print(sys.version)
+for test in (forLoop, listComp, mapCall, genExpr, genFunc):
+    elapsed, result = functions_timer.timer(test)
+
+    # NOTE, we have coded our functions forLoop, listComp, etc with no input arguments
+    # but the functions_timer.timer() function has pargs and kargs. in the timer function, because in this call we have just passed `test`, and no other arguments
+    # inside timer(), pargs and kargs are () and {} respectively, i.e. empty tuple and empty dictionary.
+    # and inside timer(), the line res = func(*pargs, **kargs) works even though our passed functions like forLoop and listComp do not have any arguments
+    # because during function call, the * and ** arguments expand into NOTHING. the call is not func((), {}) but func(*(), **{}) and because they are empty, they CANNOT expand into any
+    # arguments and so func(*(), **{}) essentially becomes func()
+
+    print('-' * 33)
+    print ('%-9s: %.5f => [%s...%s]' %
+    (test.__name__, elapsed, result[0], result[-1]))
+
+# each of the five tests builds a list of 10,000 items 1,000 times.
+# NOTICE in the test run output, gen expression is slightly slower than list comprehension although wrapping gen expression in a list() call is functionally equivalent to a
+# list comprehension. This difference is because of the internal implementations of list comprehension and generator expressions.
+
+# the above was running a built-in function abs, on each item
+# below we run an expression on each item, again doing it in different iteration ways
+
+print("Running tests for evaluating an expression for each item")
+
+def forLoop():
+    res = []
+    for x in repslist:
+        res.append(x + 10)
+    return res
+
+def listComp():
+    return [x + 10 for x in repslist]
+
+def mapCall():
+    return list(map(lambda x: x + 10, repslist))
+
+def genExpr():
+    return list(x + 10 for x in repslist)
+
+def genFunc():
+    def gen():
+        for x in repslist:
+            yield x + 10
+    return list(gen())
+
+for test in (forLoop, listComp, mapCall, genExpr, genFunc):
+    elapsed, result = functions_timer.timer(test)
+
+    print('-' * 33)
+    print ('%-9s: %.5f => [%s...%s]' %
+    (test.__name__, elapsed, result[0], result[-1]))
+
+# looking at the output of this test, it appears that map calls are slower than even a for loop in this case, which tells us that map calls are slower
+# when applying a user-defined function
 
 
 ## see function_gotchas1.py, function_gotchas2.py, etc

@@ -4,7 +4,7 @@ repslist = range(reps) # this is contructed outside the timing loop, so that its
 
 def timer(func, *pargs, **kargs):
     start = time.time()
-    for i in repslist():
+    for i in repslist:
         res = func(*pargs, **kargs)
     elapsed = time.time() - start
     return (elapsed, res)
