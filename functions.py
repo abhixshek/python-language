@@ -1973,5 +1973,31 @@ for test in (forLoop, listComp, mapCall, genExpr, genFunc):
 # when applying a user-defined function
 
 
+# more sophisticated timers and a best timer to evaluate the best time among _reps to filter out any system load variations
+import functions_alternative_timer
+import sys
+
+reps = 10000
+repslist = range(reps)
+print(sys.version)
+for tester in (functions_alternative_timer.timer, functions_alternative_timer.best):
+    print('<%s>' % tester.__name__)
+    for test in (forLoop, listComp, mapCall, genExpr, genFunc):
+        elapsed, result = tester(test)
+        print ('-' * 35)
+        print ('%-9s: %.5f => [%s...%s]' %
+               (test.__name__, elapsed, result[0], result[-1]))
+
+# infact, our timer functions are general purpose and can be used to time any function
+def power(x, y): return x ** y
+
+elapsed, result = functions_alternative_timer.timer_new(power, 2, 100000, _reps=5000)
+print("elapsed time: %.2f"%(elapsed))
+
+
+
+
+
+
 ## see function_gotchas1.py, function_gotchas2.py, etc
 
