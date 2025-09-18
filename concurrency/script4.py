@@ -1,5 +1,5 @@
 """
-Lets convert our 2 function calls into 2 threads.
+Lets create 10 threads in a loop
 """
 
 import threading

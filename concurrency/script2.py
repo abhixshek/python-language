@@ -20,12 +20,14 @@ t2 = threading.Thread(target=do_something)
 # do_something()
 
 t1.start()
+print(f"Count of active threads: {threading.active_count()}") # prints 2, because one is the MainThread which is always run whenever we execute python code.
 t2.start()
+print(f"Count of active threads: {threading.active_count()}")
 
 
 finish = time.perf_counter()
 
 print(f'Finished in {finish - start:.2f} seconds.') # using .2f in strings is equivalent to using round(finish - start, 2)
 
-# script takes 2 seconds as expected
+# script takes 0.00 seconds as expected. # but this is because our calculation is not taking into account the finishing of the threads. see script3 for solution
 
