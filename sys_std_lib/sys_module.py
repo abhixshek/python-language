@@ -17,5 +17,13 @@ print(a >= (3,)) # True if it is running python3
 assert sys.version_info >= (3, 7) # does nothing if the assertion is true. program execution will continue.
 
 
+# pass some command line arguments when running this script.
+# ex: python sys_module.py okay hello 90 123bye
+print(sys.argv) # ['sys_module.py', 'okay', 'hello', '90', '123bye']
+# sys.argv is a list of all command line arguments passed with the python filename at index 0
+
+
+
+
 
 
