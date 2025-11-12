@@ -30,3 +30,6 @@ docs/*.txt
 # so docs/lesson1.pdf and docs/arch/lesson2.pdf is also ignored, but lesson0.pdf in the root dir is not ignored
 docs/**/*.pdf
 
+# ignore all __pycache__/ directories
+__pycache__/
+
