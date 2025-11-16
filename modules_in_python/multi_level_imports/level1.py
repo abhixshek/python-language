@@ -10,7 +10,7 @@ age = [25, 36, 44]
 class klass: pass
 
 def func():
-    pass
+    print('running func')
 
 import sys
 

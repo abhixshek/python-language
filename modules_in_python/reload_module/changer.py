@@ -1,0 +1,5 @@
+message = "first version"
+
+def printer():
+    print(message)
+
