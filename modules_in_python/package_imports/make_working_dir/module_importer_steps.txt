@@ -1,0 +1,4 @@
+to run this module_importer.py file, you must first add the path to package_imports/ directory to sys.path either using PYTHONPATH env variable or .pth file.
+This is because, if you notice the import statement in module_importer.py, we are importing dir1.dir2.mod and this requires that dir1 either be a subdirectory of the home directory
+of module_importer.py (i.e make_working_dir/) and this is not the case here, or the parent directory of dir1 be known to sys.path
+
