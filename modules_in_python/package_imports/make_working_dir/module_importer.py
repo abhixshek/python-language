@@ -27,7 +27,16 @@ print(dir1.dir2.mod.z)
 
 # import statements can be somewhat inconvenient to use with packages, because you may have to retype the paths frequently in your program.
 # for example, to access mod object you have to always type dir1.dir2.mod. Typing dir2.mod or just mod will throw a NameError
-dir2.mod
+# in such cases therefore, using `from` is preferable to `import`
+
+print("using from statement for package imports")
+from dir1.dir2 import mod
+print(mod.z)
+
+# another shorter way if you are using import is to use alias
+print("using import as (alias)")
+import dir1.dir2.mod as m
+print(m.z)
 
 print('program completed')
 
