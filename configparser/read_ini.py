@@ -5,6 +5,7 @@ config = configparser.ConfigParser()
 
 print(config.sections()) # empty list
 
+# read from ini file
 config.read('file1.ini')
 
 print(config.sections()) # ['school.student']
