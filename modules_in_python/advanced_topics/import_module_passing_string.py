@@ -27,3 +27,9 @@ form = __import__("formats")
 print(form) # module object pointing to formats.py
 print(form.commas(89423835))
 
+m = __import__("metaprograms.moda") # for package imports, __import__ has a few quirks. This does not work how we want it to.
+print(m) # m is metaprograms (namespace)
+# to import metaprograms.moda
+m = __import__("metaprograms.moda", fromlist = ['moda'])
+print(m) # this is metaprograms.moda
+

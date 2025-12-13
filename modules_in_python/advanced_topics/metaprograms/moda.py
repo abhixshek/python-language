@@ -1,3 +1,6 @@
+"""
+module with some variable names
+"""
 name = 'kelly'
 
 def printer():

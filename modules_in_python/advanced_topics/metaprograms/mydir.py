@@ -5,14 +5,15 @@ mydir.py: a module that lists the namespaces of other modules
 seplen = 60
 sepchr = '-'
 
-def my_listing(module, verbose=True):
+def listing(module, verbose=True):
     attributes = {}
     if not verbose:
         for key in module.__dict__:
             if key.startswith('_'):
                 continue
             attributes[key] = module.__dict__[key]
-
+    else:
+        attributes = module.__dict__
 
     print(sepchr * 60)
     print('name: %s    file: %s' %(module.__name__, module.__file__))
@@ -24,8 +25,7 @@ def my_listing(module, verbose=True):
         print('%0*d) %s %s' %(size_of_count, idx, key, attributes[key]))
 
 
-
-import moda
-import sys
-my_listing(moda, verbose=False)
+if __name__ == "__main__":
+    import moda
+    listing(moda, verbose=True)
 
