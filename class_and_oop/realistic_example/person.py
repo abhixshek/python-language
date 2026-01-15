@@ -23,7 +23,6 @@ class Manager(Person): # define a subclass of Person, inheriting Person attribut
     def giveRaise(self, percent, bonus=.10): # redefine to customize
         Person.giveRaise(self, percent + bonus) # call Person's version with the bonus tacked on. this way we minimize logic redundancy as in future should the logic of raise
         # change we will still have only 1 place to update which is giveRaise in Person.
-        
 
 
 if __name__ == "__main__":
@@ -54,4 +53,22 @@ if __name__ == "__main__":
     tom.giveRaise(.10) # runs custom version defined in Manager
     print(tom.lastName()) # runs inherited method
     print(tom) # runs inherited __str__
+
+    # a new Manager class redefining its __init__ constructor to always have job='mgr' as the class name itself is enough to tell that all managers are managers.
+    class Manager(Person):
+        def __init__(self, name, pay=0): # redefine constructor
+            Person.__init__(self, name, job='mgr', pay=pay) # run original with 'mgr'
+
+        def giveRaise(self, percent, bonus=0.10):
+            Person.giveRaise(self, percent + bonus)
+
+    jerry = Manager('Jerry Smith', 50000)  # job name not needed
+    print(jerry)
+    jerry.giveRaise(0.10)
+    print(jerry.lastName())
+    print(jerry)
+
+
+
+
 
