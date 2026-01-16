@@ -58,5 +58,3 @@ if __name__ == "__main__":
     # inheritance was the right way to go about it. 
     # although this composite pattern can be useful in applications where there is more limited interaction
     # between two types of objects. see department_composition.py
-
-
