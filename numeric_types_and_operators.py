@@ -350,7 +350,7 @@ print(type(result))
 
 #### set core type
 # unordered collection of immutable objects
-# because they are unordered, there is indexing allowed. that is sets are not a sequence.
+# because they are unordered, there is no indexing allowed. that is sets are not a sequence.
 
 a = 'spam'
 b = set(a) # a should be an iterable
