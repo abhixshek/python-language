@@ -63,5 +63,21 @@ i = Sub(3, 5)
 print(i.x, i.y)
 
 
+class Super:
+    def method(self):
+        print('in Super.method')
+
+class Sub:
+    def method(self): # override method
+        print('Starting Sub.method') # add actions here
+        Super.method(self) # run default action
+        print('ending Sub.method')
+
+# this way Sub only extends Super.method's behaviour, rather than replacing it completely.
+a = Sub()
+a.method()
+
+x = Super()
+x.method() # runs super.method
 
 
