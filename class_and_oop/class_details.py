@@ -81,3 +81,44 @@ x = Super()
 x.method() # runs super.method
 
 
+print('\n\n### Abstract classes')
+# syntax to indicate/create abstract super class (base class)
+from abc import ABCMeta, abstractmethod
+class Super(metaclass=ABCMeta): # metaclass is a keyword-only argument in this class header.
+    def delegate(self):
+        self.action()
+
+    @abstractmethod # decorator, studied later
+    def action(self):
+        pass
+        
+# the effect of this is that you CANNOT make an instance unless the method is defined lower in the class tree.
+
+try:
+    a = Super()
+except TypeError as e: # the exception is triggered and this except clause gets run
+    print(e)
+
+class Sub(Super): pass
+
+try:
+    x = Sub()
+except TypeError as e: # again, still the exception is triggered because the abstract method `action` is still the active method in the class tree
+    print(e)
+
+class Sub(Super):
+    def action(self):
+        pass # ideally you better do something else, but I have written pass to demonstrate that `action` defined here does not necessarily need to do anything to get rid of the abstractness of the Super class;
+    # `abstract` method. The def here alone solves the issue.
+
+y = Sub() # runs normally.
+
+class Sub(Super):
+    def action(self):
+        print('Running action of Sub')
+
+y = Sub()
+y.delegate()
+
+
+
